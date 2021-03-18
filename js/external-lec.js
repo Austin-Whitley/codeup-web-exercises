@@ -11,6 +11,7 @@ console.log(favoriteCheese + " is the cheese of choice!");
 var typeOfPrompt = typeof prompt("tell me the thing.");
 console.log(typeOfPrompt);
 
+//returns a string value
 var num = parseFloat(prompt("gimme a number: "));
 console.log("User entered: " + num + ". That number plus 17 is: " + (num + 17) + ".");
 
