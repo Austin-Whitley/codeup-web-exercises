@@ -28,7 +28,7 @@ console.log(helloMessage);
  * console.
  */
 var myName = "Austin";
-console.log(myName + " console logged");
+//console.log(myName + " console logged");
 console.log(sayHello(myName));
 
 // Don't modify the following line, it generates a random number between 1 and 3
@@ -54,7 +54,7 @@ var random = Math.floor((Math.random() * 3) + 1);
  */
 
 function isTwo(number){
-    return (number == 2);
+    return (number === 2);
 }
 //isTwo(random);
 console.log(isTwo(random));
