@@ -132,32 +132,32 @@ alert(analyzeColor(userColor));
 
 function calculateTotal(luckyNumber, costBeforeDiscount){
     var finalCost = 0;
-    if(luckyNumber === 0){
+    if(luckyNumber === 0){ //No discount
         console.log("Lucky number 0, no discount.");
         finalCost = costBeforeDiscount.toFixed(2);
         return "You drew Luck number: " + luckyNumber + "! Your discount is 0%. Your total comes out to: $" + finalCost;
     }
-    else if(luckyNumber === 1){
+    else if(luckyNumber === 1){ //10% discount
         console.log("Lucky number 1, 10% discount!");
         finalCost = costBeforeDiscount.toFixed(2) * 0.90;
         return "You drew Luck number: " + luckyNumber + "! Your discount is 10%. Your total comes out to: $" + finalCost;
     }
-    else if(luckyNumber === 2){
+    else if(luckyNumber === 2){ //25% discount
         console.log("Lucky number 2, 25% discount!");
         finalCost = costBeforeDiscount.toFixed(2) * .75;
         return "You drew Luck number: " + luckyNumber + "! Your discount is 25%. Your total comes out to: $" + finalCost;
     }
-    else if(luckyNumber === 3){
+    else if(luckyNumber === 3){ //35% discount
         console.log("Lucky number 3, 35% discount!");
         finalCost = costBeforeDiscount.toFixed(2) * 0.65;
         return "You drew Luck number: " + luckyNumber + "! Your discount is 35%. Your total comes out to: $" + finalCost;
     }
-    else if(luckyNumber === 4){
+    else if(luckyNumber === 4){ //50% discount
         console.log("Lucky number 4, 50% discount!");
         finalCost = costBeforeDiscount.toFixed(2) * 0.50;
         return "You drew Luck number: " + luckyNumber + "! Your discount is 50%. Your total comes out to: $" + finalCost;
     }
-    else if(luckyNumber === 5){
+    else if(luckyNumber === 5){ //Free! 100% discount
         console.log("Lucky number 5, 100% discount!");
         finalCost = 0;
         return "You drew Luck number: " + luckyNumber + "! Your discount is 100%. Your total comes out to: $" + finalCost;
@@ -246,7 +246,6 @@ alert(calculateTotal(generateLuckyNumber, userBillTotal));
 //##################################################################################
 
 //Same thing but with functions instead
-
 var userConfirm2 = confirm("Would you like to enter a number?");
 if(userConfirm2) {
     var userInput = (prompt("Please enter a number: "));
@@ -261,16 +260,10 @@ if(userConfirm2) {
     else{
         console.log("Unexpected Error: functionsUserConfirmUserInput-NaN");
     }
-
 }
-
 //#####################################/\_Functions_/\#####################################\\
 function evenOdd(input){
-    if (input % 2 === 0) {
-        alert("Your number is even.");
-    } else {
-        alert("Your number is odd.");
-    }
+    return(input % 2 === 0) ? "Your number is even." : "Your number is odd.";
 }
 function plusHundred(input) {
     input = parseFloat(input);
