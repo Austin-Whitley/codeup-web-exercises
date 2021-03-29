@@ -14,6 +14,7 @@ console.log("You start with " + allCones + " ice cream cones.");
 
 //do while loop to iterate down the starting number
 do{
+    //generate a number of cones sold 1-6 (if theres enough)
     var soldCones = Math.floor(Math.random() * 5) + 1;
     console.log("You have: " + allCones + " ice cream cones.");
     //check to see if there are enough to sell

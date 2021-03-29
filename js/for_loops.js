@@ -12,7 +12,7 @@ function showMultiplicationTable(input){
         console.log(input + " * " + i + " = " + total);
     }
 }
-showMultiplicationTable(7);
+showMultiplicationTable(parseInt(prompt("Enter a number 1-10")));
 
 console.log("=====================For loop triangle!=====================");
 //nested for loop pyramid
@@ -20,11 +20,7 @@ var totalRows = 9;
 var output = ""
 for(var i = 1; i <= totalRows ; i++){
     for (var k = 1; k <= i ; k++){
-        if(i === k) {
-            output += k + "";
-        }else{
-            output += i + "";
-        }
+        output += i + "";
     }
     console.log(output);
     output = "";
