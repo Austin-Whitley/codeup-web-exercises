@@ -56,20 +56,21 @@
      *  > last([1, 2, 3, 4, 5]) // return 5
      */
     var numArray = [1,2,3,4,5];
-    function returnsFirst(array){
+
+    function first(array){
         return array[0];
     }
-    function returnsSecond(array){
+    function second(array){
         return array[1];
     }
-    function returnsLast(array){
+    function last(array){
         var last = array.length - 1;
         return array[last];
     }
 
     console.log("================Array-return-functions================");
-    console.log(returnsFirst(numArray));
-    console.log(returnsSecond(numArray));
-    console.log(returnsLast(numArray));
+    console.log(first(numArray));
+    console.log(second(numArray));
+    console.log(last(numArray));
 
 })();
