@@ -24,11 +24,20 @@
      * list. You will need an opening AND closing <ul> tags around the entire
      * string, and <li> tags around each planet.
      */
-    var breakString = "Mercury<br>Venus<br>Earth<br>Mars<br>Jupiter<br>Saturn<br>Uranus<br>Neptune";
-
+    var breakString = planetsArray.join("<br>");
+    console.log(breakString);
     //useful to separate the planets on the html page, since the <br> is a line break.
-    var listString = <ul><li>"Mercury"</li><li>"Venus"</li><li>"Earth"</li><li>"Mars"</li>
-        <li>"Jupiter"</li><li>"Saturn"</li><li>"Uranus"</li><li>"Neptune"</li></ul>;
+
+
+    var listString = "<ul>";
+    planetsArray.forEach(function(planet){
+        listString += "<li>" + planet + "</li>";
+    })
+    listString += "</ul>";
+    console.log(listString);
+
+    document.getElementById('planets').innerHTML = listString;
+    //document.getElementById('planets').innerHTML = breakString;
 
 
 })();
