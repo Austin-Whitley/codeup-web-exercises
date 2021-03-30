@@ -23,7 +23,7 @@ cheeses.unshift("Gouda");
 
 //logTheCheese();
 
-//what id we want to add a bunch of things at one time????
+//what if we want to add a bunch of things at one time????
 
 cheeses.push("Colby jack", "White cheddar", "Havarti");
 cheeses.unshift("red windsor", "Ragstone", "Nut Rebel");
