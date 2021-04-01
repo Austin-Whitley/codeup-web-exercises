@@ -51,13 +51,13 @@
         {name: 'George', amount: 320}
     ];
 
-    shoppers.forEach(function(shoppers){
+    shoppers.forEach(function(shopper){
         //test if the amount is greater than 200, if so reduce amount by 12% and return
-        if(shoppers.amount >= 200){
-            shoppers.amount = shoppers.amount * .88;
-            console.log(shoppers.name + " owes: $" + shoppers.amount);
+        if(shopper.amount >= 200){
+            var withDiscount = shopper.amount * .88;
+            console.log(shopper.name + " owes: $" + shopper.amount + " with the 12% promotional discount: $" + withDiscount);
         }else{
-            console.log(shoppers.name + " owes: $" + shoppers.amount);
+            console.log(shopper.name + " owes: $" + shopper.amount );
         }
     });
 
@@ -134,7 +134,7 @@
         //add another object to the books array
         books.push({title: title, author: {firstName: authorFirstName, lastName: authorLastName}});
     }
-    var userInput = confirm("Make a book?");
+    var userInput = confirm("Would you like to add a book to the library?");
         if (userInput){
             var userTitle = prompt("What is the title of the book?");
             var authorFirst = prompt("What is the author's first name?");
@@ -146,5 +146,20 @@
             // console.log(books[5].author.firstName);
             // console.log(books[5].author.lastName);
         }
+    // var booksWithFunction = [
+    //     createBook("Lord of the Rings", "J.R.R.","Tolkien"),
+    //     createBook("The Hobbit, there and back again","J.R.R.", "Tolkien"),
+    //     createBook("The little Prince","Antoine",  "Saint-Exupéry"),
+    //     createBook("A Tale of Two Cities", "Charles", "Dickens"),
+    //     createBook("Da Vinci Code", "Dan", "Brown")
+    // ]
+    function showBookInfo(book, bookNumber){
+            console.log("Book #" + (bookNumber + 1));
+            console.log("title: " + book.title);
+            console.log("Author: " + book.author.lastName + ", " + book.author.firstName);
+            console.log("---");
+
+    }
+    books.forEach(showBookInfo);
 
 })();
