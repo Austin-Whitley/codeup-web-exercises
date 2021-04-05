@@ -19,9 +19,9 @@
             // Otherwise, output the complete value
             if(doRounding){
                 var upOrDown = this.getArea() - Math.floor(this.getArea());
-                if(upOrDown >= 0.5){ //round up or down depending on the remainder
+                if(upOrDown >= 0.5){ //round up if the remainder is 0.5 or larger.
                     console.log("Area of a circle with radius: " + this.radius + ", is: " + Math.ceil(this.getArea()));
-                }else if(upOrDown <= 0.49){
+                }else if(upOrDown <= 0.49){ // round down if the remainder is 0.49 or lower.
                     console.log("Area of a circle with radius: " + this.radius + ", is: " + Math.floor(this.getArea()));
                 }
 
