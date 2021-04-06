@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register With US</title>
+</head>
+<body>
+    <h1>Veridian Dynamics</h1>
+    <h3>Register, create, command, technology</h3>
+    <form method="POST" action="https://request-inspector.glitch.me/">
+
+        <!--User information: Email and Password-->
+        <label for="emailEntry">Email: </label>
+        <input id="emailEntry" name="userEmail" type="text" placeholder="Enter Email"> <br>
+        <label for="passwordEntry">Password: </label>
+        <input id="passwordEntry" name="userPassword" type="password" placeholder="Enter Password">
+
+        <!--Text area for Bio-->
+        <br><br>
+        <label for="bioField">Tell us about yourself</label> <br>
+        <textarea id="bioField" name="bio" cols="30" rows="10"></textarea>
+
+        <!--Radio buttons: "How did you find us"-->
+        <h3>How did you find out about us?</h3>
+        <input id="option-bb" name="findUs" value="billboard" type="radio">
+        <label for="option-bb">Billboard Advertisement</label>
+        <br>
+        <input id="option-RA" name="findUs" value="radio" type="radio">
+        <label for="option-RA">Radio Advertisement</label>
+        <br>
+        <input id="option-IA" name="findUs" value="internet" type="radio">
+        <label for="option-IA">Internet Advertisement</label>
+        <br>
+        <input id="option-O" name="findUs" value="other" type="radio">
+        <label for="option-O">Other</label>
+        <br> <br>
+
+        <!--Drop down for browser input-->
+        <label for="browserSelect">What type of browser are you using?</label>
+        <br>
+        <select id="browserSelect" name="browserType">
+            <option value="chrome">Google Chrome</option>
+            <option value="explorer">Internet Explorer</option>
+            <option value="firefox">FireFox</option>
+            <option value="duckDuckGo">Duck Duck Go</option>
+            <option value="safari">Safari</option>
+            <option value="other">Other</option>
+        </select>
+        <br> <br>
+        <!--Submit button-->
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>
