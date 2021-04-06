@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms Lecture</title>
+</head>
+<body>
+    <h1>Forms Lecture</h1> <h2>by David Stevens</h2>
+    <hr>
+    <form method="POST" action="http://request-inspector.glitch.me/">
+        <!--When dealing with information know what you want to do with it... dont put sensitive info in the search bar-->
+        <!--POST will send information, GET will retrieve information -->
+        <!--For points toward id, when i click on the label for="Username" it will select the input field for the id="username"-->
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text">
+        <br>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password">
+        <br>
+        <br>
+
+        <!--in addition to the type="text", we can addon textArea-->
+        <label for="body-text">Tell me about yourself...</label> <br><!--This is an inline element, and when used with a large empty box, it looks like trash.-->
+        <textarea id="body-text" name="body" cols="30" rows="10" ></textarea> <!--adding placeholder text will clean that up (which can be added in the description area for any input field)-->
+        <br>
+
+
+        <h3>What is the correct answer</h3>
+        <!--They all have the same name, but different ID's-->
+        <input name="multi-choice" id="choice-a" value="wrong" type="radio">
+        <label for="choice-a">A</label>
+        <br>
+        <input name="multi-choice" id="choice-b" value="wrong" type="radio">
+        <label for="choice-b">B</label>
+        <br>
+        <input name="multi-choice" id="choice-c" value="correct" type="radio">
+        <label for="choice-c">C</label>
+        <br>
+        <input name="multi-choice" id="choice-d" value="wrong" type="radio">
+        <label for="choice-d">D</label>
+        <br>
+
+        <!--Keep note: Any value returned from these input fields will be of datatype String-->
+
+        <h3>How'd you hear about us?</h3>
+        <label for="ad-bb">Billboard</label>
+        <input id="ad-bb" name="advertising" value="billboard" type="checkbox">
+        <label for="ad-yt">Youtube</label>
+        <input id="ad-yt" name="advertising" value="youtube" type="checkbox">
+        <label for="ad-np">Newspaper</label>
+        <input id="ad-np" name="advertising" value="newspaper" type="checkbox">
+        <br>
+        <!--checkboxes will send data as an array-->
+        <!--without the value attribute, data returned is: "on", removing the ability to differentiate between boxes selected-->
+
+        <!--<input type="submit">-->
+        <button type="submit">Login</button>
+    </form>
+
+</body>
+</html>
