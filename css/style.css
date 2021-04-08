@@ -1,4 +1,45 @@
 
-.fancy-header{
+header{
+    margin: 50px auto;
+    width: 500px;
+    padding: 10px;
+}
+
+
+h1,h2{
+    color: darkcyan;
+    text-decoration: underline;
+}
+body{
+    /*background-image: url("../img/Arlington_Six_Flags.jpeg");*/
+    background-repeat: no-repeat;
+    background-color: whitesmoke;
+    padding: 50px;
+    font-family: Helvetica, arial, sans-serif;
+}
+li{
+    list-style: square;
+}
+/* Links section*/
+a:link{
+    color: blue;
+    text-decoration: underline;
+}
+a:hover{
+    color: darkturquoise;
+}
+a:visited{
     color: rebeccapurple;
 }
+
+/*Table styling*/
+table{
+    padding: 10px;
+}
+th{
+    border: 2px solid black;
+}
+td{
+    border-bottom: 2px solid black;
+}
+
