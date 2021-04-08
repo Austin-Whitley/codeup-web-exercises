@@ -1,0 +1,77 @@
+h1{
+    color: darkorange;
+    /*text-decoration: underline;*/
+    border-bottom: 1px solid black;
+    text-align: center;
+    font-size: 220%; /* 220% relative to the font size of the entire page */
+}
+
+/* rules and selectors, rules "p" or "h1" above,
+selectors are the color, text-decoration, font-family attributes that we can give to
+
+font-family: monospace is typically only used for displaying blocks of code on a page */
+p{
+    font-family: serif;
+}
+
+/*inheritance, any children of the HTML element section will get the same font-family attribute described here*/
+body{
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    /*
+    margin-top: 160px;
+    background-image: url("../img/startingImage1252x750.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    */
+
+}
+/*while inheritance will give attributes to its children, if we specify something different for one of the children
+the more specific attribute will take precedence */
+aside{
+    font-family: cursive;
+}
+.bottom-border {
+    border-bottom: 1px solid black;
+}
+ul{
+    list-style: square;
+    color: darkslategrey;
+}
+ol{
+    list-style: upper-roman;
+}
+q{
+    font-weight: bold;
+}
+#main-branding{ /*You can only have one element with one id so this is not very useful*/
+    font-size: 110%;
+}
+.font-110{/*This is more applicable, you can add it as a class to any element*/
+    font-size: 110%;
+}
+/*descendant selector: this talks to only paragraphs that are defined within a section*/
+section p {
+    color: darkslategrey;
+}
+/*You can also select elements that are ONLY direct descendants of a parent element*/
+section>p{
+    color: green;
+}
+
+/*Links and their attributes can be changed like this*/
+a:link{
+    color: aqua;
+}
+a:visited{
+    color: rebeccapurple;
+}
+a:hover{
+    color: darkturquoise;
+}
+
+p:first-of-type{
+    border-bottom: 1px solid black;
+}
+p::first-letter{
+    font-size: 110%;
+}
