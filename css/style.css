@@ -1,10 +1,10 @@
 
 header{
-    margin: 50px auto;
+    margin-left: auto;
+    margin-right: auto;
     width: 500px;
-    padding: 10px;
+    padding: 0px;
 }
-
 
 h1,h2{
     color: darkcyan;
@@ -34,12 +34,37 @@ a:visited{
 
 /*Table styling*/
 table{
+    /*margin-left: auto;*/
+    margin-right:auto;
+    border: thin solid black;
+    font-size: 120%;
+    border-collapse: collapse;
+}
+th, td{
+    border: thin solid grey;
     padding: 10px;
 }
 th{
-    border: 2px solid black;
+    background-color: darkgrey;
 }
-td{
-    border-bottom: 2px solid black;
+
+/*
+    Box Model Lecture
+*/
+.frame{
+    display: inline-block;
+    background: orange;
 }
+.box{
+    height: 50vh;/* vh is relative to screen size - so 50% of View Height (page height)*/
+    width: 50vw;
+    padding: 20px 50px 20px 50px; /* Top, right, bottom, left*/
+    border: 20px solid green; /* thickness to all sides, styling, color */
+    /*border-bottom: 20px solid green; To get specific borders call them individually*/
+    margin: 100px; /* works as the frame: top, right, bottom, left*/
+    background: yellow;
+
+    /*box-sizing: border-box will keep the TOTAL width of our box to the width variable defined*/
+}
+
 
