@@ -1,3 +1,13 @@
+:root{
+
+    /*  global css variables */
+    --border-details: 1px solid grey;
+    --red-background: RGB(245, 212, 215);
+    --yellow-background: RGB(253, 251, 206);
+    --green-background: RGB(215, 242, 220);
+    --blue-background: RGB(209, 222, 252);
+}
+
 body, html{
     height: 100%;
     width: 100%;
@@ -5,30 +15,34 @@ body, html{
     margin: 0;
     font-family: Ariel, Ubuntu, sans-serif;
 }
-
+/* Box layout and location details */
 div{
     padding: 0.5em;
     margin: 5px auto;
     width: 50%;
     border-radius: 0.5em;
 }
+/* Blue info message box */
 .message-info{
-    border: 1px solid grey;
-    background: RGB(209, 222, 252);
+    border: var(--border-details);
+    background: var(--blue-background);
     color: darkblue;
 }
+/* Green success message box*/
 .message-success{
-    border: 1px solid grey;
-    background: RGB(215, 242, 220);
+    border: var(--border-details);
+    background: var(--green-background);
     color: forestgreen;
 }
+/* Yellow warning message box */
 .message-warning{
-    border: 1px solid grey;
-    background: RGB(253, 251, 206);
+    border: var(--border-details);
+    background: var(--yellow-background);
     color: #868600;
 }
+/* Red error message box */
 .message-error{
-    border: 1px solid grey;
-    background: RGB(245, 212, 215);
+    border: var(--border-details);
+    background: var(--red-background);
     color: #850000;
 }
