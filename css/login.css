@@ -40,7 +40,8 @@ fieldset {
     /* This element must use 100% of the width */
     /* It should have a separation of .5em from elements on top of it and below it*/
     width: 100%;
-    padding: 0.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .form-label {
@@ -72,11 +73,10 @@ fieldset {
     /* See the example at: https://developer.mozilla.org/en-US/docs/Web/CSS/calc */
     /* HINT: Calculate based on the padding of the `.btn` class */
     /* HINT: Examples are available at: https://glitch.com/~input-button-width */
-    width: calc(100% - 25px);
+    width: calc(100% - 13px);
     padding: 4px;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
-
 }
 
 
