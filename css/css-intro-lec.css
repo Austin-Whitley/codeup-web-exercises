@@ -75,3 +75,18 @@ p:first-of-type{
 p::first-letter{
     font-size: 110%;
 }
+main{
+    margin: 0 0px 10px 30px;
+}
+/*div id="left-sidebar"*/
+#left-sidebar{
+    width: 200px;
+    float: left;
+    background-color: white;
+    margin: 0 10px 0 10px;
+    border: 1px solid lightgray;
+}
+footer {
+    background-color: white;
+    clear: left;
+}
