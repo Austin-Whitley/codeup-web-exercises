@@ -76,17 +76,25 @@ p::first-letter{
     font-size: 110%;
 }
 main{
-    margin: 0 0px 10px 30px;
+    margin: 0 50px 10px 10px;
 }
 /*div id="left-sidebar"*/
 #left-sidebar{
     width: 200px;
-    float: left;
+    position: absolute;
+    top: 68px; /* with absolute positioning we can move elements a certain number of pixels (68) FROM the top*/
+    right: -5px; /* or -5px FROM the right */
     background-color: white;
     margin: 0 10px 0 10px;
-    border: 1px solid lightgray;
+    border: 1px solid black;
+
 }
 footer {
     background-color: white;
     clear: left;
+}
+#mission{
+    text-align: center;
+    position: relative;
+    right: 10px;
 }
