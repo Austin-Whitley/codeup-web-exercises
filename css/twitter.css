@@ -101,7 +101,7 @@ a {
     background-color: var(--light-bg);
     border-bottom: var(--separator-color) 1px solid;
     padding: .5em;
-    overflow: auto;
+    display: flow-root; /* allows the parent class to flow around its children (media-image/ media body) */
 }
 .media-image{
     max-width: 50px;
