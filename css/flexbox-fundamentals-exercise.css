@@ -38,7 +38,7 @@ h2, h3 {
     /* enter needed declarations here */
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 section {
@@ -68,15 +68,15 @@ section:nth-of-type(2){ /* purple boxes */
     height: 1em;
 
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .purple-box:nth-of-type(1) {
-    flex-grow: 3;
+    flex-grow: 2;
 }
 
 .purple-box:nth-of-type(2) {
-    flex-grow: 2;
+    flex-grow: 1;
 }
 
 .blue-box {
@@ -91,7 +91,7 @@ section:nth-of-type(3) { /* orange circles*/
 }
 
 section:nth-of-type(3) h3 {
-    flex-grow: 3;
+    flex-grow: 1;
 }
 
 .orange-circle {
@@ -107,10 +107,7 @@ section:nth-of-type(3) h3 {
     width: 5em;
     background: brown;
 
-    flex-direction: row;
-    justify-content: space-between;
-    flex-grow: 3;
-
+    flex-grow: 1;
 }
 
 .large-brown-box:nth-of-type(2) {
@@ -119,7 +116,6 @@ section:nth-of-type(3) h3 {
 
 section:nth-of-type(5) {
     /* enter needed declarations here */
-    flex-direction: row;
     justify-content: space-evenly;
 }
 
@@ -148,3 +144,11 @@ section:nth-of-type(6) {
     height: 4em;
     flex-grow: 0;
 }
+/* how to constrain the width or size of a box
+Margin spacing is defined in the flex-box
+margin-right: auto;
+
+sends content to the left hand side of the field
+*/
+
+

@@ -1,0 +1,10 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: skyblue;
+}
+.box{
+    border: 1px solid black;
+    width: 30px;
+    height: 100px;
+}

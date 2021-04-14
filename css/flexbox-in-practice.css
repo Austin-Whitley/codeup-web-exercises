@@ -1,0 +1,74 @@
+/*
+@import url()
+*/
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Ubuntu, sans-serif;
+}
+
+
+nav{
+    background: #0d5f78;
+    color: whitesmoke;
+    /*padding: 4px;*/
+}
+nav a{
+    color: whitesmoke;
+    text-decoration: none;
+}
+ ul{
+     display: flex;
+     list-style: none;
+     padding: 0;
+ }
+header p, header h3{
+     padding: .5em;
+ }
+
+ #branding{
+     margin-right: auto;
+ }
+ footer nav{
+     display: flex;
+ }
+ footer ul{
+     display: flex;
+     align-items: flex-start;
+     list-style: none;
+     padding: .5em;
+     flex-direction: column;
+     justify-content: flex-start;
+
+ }
+ footer ul:nth-of-type(2){
+     margin-right: auto;
+ }
+ footer p{
+     width: 40vw;
+     padding: .5em;
+     box-sizing: border-box;
+ }
+ #copyright{
+     display: flex;
+     justify-content: flex-end;
+     background: #f6c42c;
+     padding: 1em;
+ }
+ #container{
+     margin: auto;
+     background: #3b7688;
+ }
+#main-content{
+    width: 80vw;
+    height: 100vh;
+    background: whitesmoke;
+    color: #0d5f78;
+    margin: auto;
+    padding: 1em;
+}
+.card img{
+    width: 200px;
+    border-radius: 100%;
+}
