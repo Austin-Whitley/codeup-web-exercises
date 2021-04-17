@@ -1,0 +1,31 @@
+.jumbotron{
+    background-image: url("../img/pizzaWorld.png");
+
+}
+.jumbotron h1{
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.2);
+}
+.nav-link {
+    display: flex;
+    flex-direction: row;
+}
+
+.card{
+    margin-bottom: 5px;
+}
+.card a{
+    display: inline-block;
+    margin-top: .5em;
+}
+
+.form-group{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+.form-inline {
+
+}

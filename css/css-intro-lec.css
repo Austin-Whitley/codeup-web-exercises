@@ -98,3 +98,10 @@ footer {
     position: relative;
     right: 10px;
 }
+
+/* Media Query - Mobile devices */
+@media screen and (max-width: 768px) {
+    body{
+        color: hotpink;
+    }
+}
