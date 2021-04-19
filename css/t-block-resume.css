@@ -1,0 +1,14 @@
+body{
+    padding: 0 .5em;
+}
+.bottom-border{
+    padding-bottom: .5em;
+    border-bottom: 4px solid rgb(153, 170, 123);
+}
+main h3{
+    color: rgb(91, 129, 243);
+    font-weight: bold;
+}
+main{
+    padding-top: 1em;
+}
