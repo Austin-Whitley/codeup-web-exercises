@@ -1,0 +1,34 @@
+:root{
+    --background-color: rgb(42, 45, 49);
+    --mustard-color: rgb(190, 161, 82)
+}
+.navbar{
+    font-size: 120%;
+    background-color: var(--background-color) !important;
+}
+.body{
+    font-family: sans-serif;
+    margin: 0;
+    overflow: hidden;
+}
+.puppiness{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    object-fit: cover;
+}
+.image-container{
+    display: flex;
+    justify-content: space-evenly;
+
+}
+.video-container{
+    min-height: auto;
+    padding: 1em;
+}
+/*.text-container{*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    transform: translate(50%, 50%);*/
+/*    color: black;*/
+/*}*/
