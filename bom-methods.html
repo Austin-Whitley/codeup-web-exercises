@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browser Object Model</title>
+</head>
+<body>
+    <script>
+        var count = 0;
+        var thisWillStop = setInterval(interval, 1000);
+        function interval(){
+            if(count < 10) {
+                console.log("Hey, " + count);
+                count++;
+            }
+            clearInterval(thisWillStop);
+        }
+    </script>
+</body>
+</html>
