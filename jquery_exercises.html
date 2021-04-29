@@ -5,19 +5,45 @@
     <title>jQuery exercise</title>
 </head>
 <body>
-    <h2>jQuery intro exercise</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor eos harum molestiae sit vel? Dignissimos eaque
+    <h1 id="main-header">jQuery intro exercise</h1>
+    <p id="p-tag">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor eos harum molestiae sit vel? Dignissimos eaque
         exercitationem illum inventore laboriosam magnam numquam quis quos repellat voluptates! Animi itaque non ut?</p>
-
+    <ul id="unordered-list">
+        <li class="codeup">Somewhere over the rainbow</li>
+        <li class="list-element">way up high.</li>
+        <li class="list-element">And the Dreams that you dream of</li>
+        <li class="list-element">once in a lullaby</li>
+        <li class="codeup">some where over the rainbow</li>
+        <li class="list-element">blue birds fly</li>
+    </ul>
+    <div id="container-div">
+        Lorem in a Div
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus adipisci aliquid amet beatae eveniet
+        exercitationem, impedit incidunt iste itaque labore laudantium maiores minus, mollitia nesciunt non quis
+        temporibus vitae voluptatibus!
+    </div>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script>
-        window.onload = function(){
-            alert("The document has finished loading.");
-        }
-        //using jQuery
         $(document).ready(function (){
             //write js here so it loads after the page has finished.
-            alert("The page has finished loading.");
+            // alert("The page has finished loading.");
+
+            //Selectors exercise pt 1
+            // var alertElementID = $("#p-tag").html();
+            // alert(alertElementID);
+            //if you use two id tags only the first iteration of the tag will be alerted since id's should only ever be used once
+
+            //selectors exercise pt 2
+            // $('.codeup').css('border', '1px red solid');
+
+            //selectors exercise pt 3
+            // $('li').css('font-size', '20px');
+            // $('h1, p, li').css('background-color', 'yellow');
+            // var alertH1 = $("h1").html();
+            // alert(alertH1);
+
+            //selectors exercise pt 4
+            $(".main-header, .list-element, .codeup, #p-tag").css("background-color", "#FF0");
         });
     </script>
 </body>
