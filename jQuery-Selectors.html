@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuerySelectors</title>
+</head>
+<body>
+    <h1>jQuery Selectors</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam aut beatae cupiditate debitis dignissimos
+        doloremque eaque incidunt ipsum iure labore, magnam molestiae neque nulla rerum sed sint, soluta veritatis!</p>
+    <h2 id="id-selectors">ID Selectors</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quia quibusdam quidem quo! Ad aut blanditiis
+        deserunt doloremque eum excepturi facilis harum, in, ipsum necessitatibus neque numquam officia quis rerum.</p>
+    <h2 class="class-selector">Class Selector</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos eaque exercitationem expedita fugiat ipsa
+        maiores nostrum, perspiciatis possimus quam quidem sapiente totam velit. Eum harum, laboriosam minus nam nesciunt
+        repudiandae.</p>
+    <h2>Generic Element</h2>
+    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, distinctio dolorum excepturi expedita
+        explicabo fuga, id itaque labore laboriosam minus molestias nihil nostrum odit pariatur perferendis placeat
+        provident tempore voluptatum.</p>
+    <button id="hot-pink">hot pink</button>
+    <p id="changes">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur earum ipsum nesciunt officia, rem rerum sequi
+        tenetur unde. Cupiditate iste laboriosam quibusdam veniam. Corporis deleniti illum nisi, non praesentium repellat!</p>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>
+        //use jQuery or the $ shortcut to call the jQuery function
+        //same as the innerHTML method, with jQuery its just .html("")
+        jQuery("#id-selectors").html("I am the chosen one");
+
+        //we can alter the css that is applied to an element
+        $(".class-selector").css("font-family", "sans-serif");
+
+        //you can access every element of a particular type using the tag selector
+        var mj = " You've been hit by, you've been struck by... A smooth criminal. <br>";
+        for(var i = 0; i < 14; i++){
+            mj = mj + " You've been hit by, you've been struck by... A smooth criminal. <br>";
+        }
+        $("p").html(mj);
+        // ^^ you can pass a variable to the html method or a function depending on what you're trying to accomplish.
+
+        //you can select lists of a tags
+        $("h1, h2, p").html("I've regained control.");
+        $("#hot-pink").css("color", "hotpink");
+        $("#changes").css("color", "hotpink");
+    </script>
+</body>
+</html>
