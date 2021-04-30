@@ -2,6 +2,7 @@
     --background-color: rgb(42, 45, 49);
     --mustard-color: rgb(190, 161, 82)
 }
+
 .navbar{
     font-size: 120%;
     background-color: var(--background-color) !important;
@@ -29,7 +30,6 @@ main>h1{
 .image-container{
     display: flex;
     justify-content: space-evenly;
-
 }
 .center-vh{
     position: relative;
@@ -39,6 +39,9 @@ main>h1{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+.founder-images{
+
 }
 .video-container{
     min-height: auto;
@@ -69,7 +72,14 @@ a:hover{
     display: flex;
     justify-content: space-around;
     margin-top: 1em;
-
+}
+.heading-border{
+    width: 100%;
+    color: var(--mustard-color);
+}
+.text-block{
+    font-size: 18px;
+    text-align: center;
 }
 
 
