@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1 id="main-header">jQuery intro exercise</h1>
-    <p id="p-tag">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor eos harum molestiae sit vel? Dignissimos eaque
+    <p id="p-tag" class="paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor eos harum molestiae sit vel? Dignissimos eaque
         exercitationem illum inventore laboriosam magnam numquam quis quos repellat voluptates! Animi itaque non ut?</p>
     <ul id="unordered-list">
         <li class="codeup">Somewhere over the rainbow</li>
@@ -16,7 +16,7 @@
         <li class="codeup">some where over the rainbow</li>
         <li class="list-element">blue birds fly</li>
     </ul>
-    <div id="container-div">
+    <div id="container-div" class="paragraph">
         Lorem in a Div
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus adipisci aliquid amet beatae eveniet
         exercitationem, impedit incidunt iste itaque labore laudantium maiores minus, mollitia nesciunt non quis
@@ -24,7 +24,7 @@
     </div>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function (){
+        // $(document).ready(function (){
             //write js here so it loads after the page has finished.
             // alert("The page has finished loading.");
 
@@ -43,8 +43,27 @@
             // alert(alertH1);
 
             //selectors exercise pt 4
-            $(".main-header, .list-element, .codeup, #p-tag").css("background-color", "#FF0");
+            // $(".main-header, .list-element, .codeup, #p-tag").css("background-color", "#FF0");
+        // });
+
+
+        //jQuery Mouse Events
+        $("#main-header").click(function(){
+            $(this).html("I can change the html by clicking on it!");
+            $(this).css("background-color", "hotpink");
         });
+        $(".paragraph").dblclick(function(){
+            $(this).css("font-size", "18px");
+        });
+        $("li").hover(function(){
+            $(this).css("color", "red");
+            }, function(){
+                $(this).css("color", "black");
+            }
+        );
+
+        //jQuery Keyboard events
+
     </script>
 </body>
 </html>
