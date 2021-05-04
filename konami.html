@@ -53,6 +53,27 @@
     </audio>
 </div>
 
+<table id="dataTable">
+    <th>Item</th>
+    <th>Sale price</th>
+    <th>Profit</th>
+    <tr>
+        <td>1</td>
+        <td>$100</td>
+        <td>$65</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>$200</td>
+        <td>$90</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>$500</td>
+        <td>$300</td>
+    </tr>
+</table>
+
 <div class="stat-bar row">
     <div class="col-6">
         <p>HP</p>
@@ -91,6 +112,10 @@
 
     $(document).keyup(orderHandle);
 
+    //example of the .on() function using jQuery
+    $("#dataTable tbody tr").on("click", function(){
+       console.log($(this).text());
+    });
 
 
 </script>
