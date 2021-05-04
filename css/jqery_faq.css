@@ -1,0 +1,37 @@
+dt{
+    font-size: 24px;
+    margin: 10px 0;
+    text-decoration: underline;
+    color: lightskyblue;
+    cursor: pointer;
+}
+dd{
+    font-size: 18px;
+    font-style: italic;
+}
+.container1, .container2{
+    width: 80%;
+    margin: 0 auto;
+}
+.container2{
+    padding: 100px;
+}
+.invisible{
+    visibility: hidden;
+}
+.footer{
+    width: 100vw;
+    height: 450px;
+    background-color: #181818;
+    color: white;
+    margin: 0 auto;
+}
+.classToAdd{
+    color: hotpink;
+}
+li{
+    color: black;
+}
+a{
+    color: lightskyblue;
+}
