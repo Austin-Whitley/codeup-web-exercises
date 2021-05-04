@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>jQuerySelectors</title>
+    <style>
+        .highlight{
+            background-color: cornsilk;
+        }
+    </style>
 </head>
 <body>
     <h1>jQuery Selectors</h1>
@@ -22,7 +27,7 @@
     <button id="hot-pink">hot pink</button>
     <p id="changes">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur earum ipsum nesciunt officia, rem rerum sequi
         tenetur unde. Cupiditate iste laboriosam quibusdam veniam. Corporis deleniti illum nisi, non praesentium repellat!</p>
-
+    <button id="font-changer">Change the Font</button>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script>
         //use jQuery or the $ shortcut to call the jQuery function
@@ -41,9 +46,29 @@
         // ^^ you can pass a variable to the html method or a function depending on what you're trying to accomplish.
 
         //you can select lists of a tags
-        $("h1, h2, p").html("I've regained control.");
+        // $("h1, h2, p").html("I've regained control.");
         $("#hot-pink").css("color", "hotpink");
         $("#changes").css("color", "hotpink");
+
+        $("#font-changer").click(function(){
+            var currentFontFamily = $("body").css("font-family");
+            //alert(currentFontFamily);
+            if(currentFontFamily === "serif" || currentFontFamily === "Times"){
+                $("body").css("font-family", "sans-serif");
+
+                alert(currentFontFamily);
+            }
+        });
+
+        $("h2").mouseenter(function(){
+            $("h2").addClass("highlight");
+        });
+        $("h2").mouseleave(function(){
+            $("h2").removeClass("highlight");
+        });
+
+
+
     </script>
 </body>
 </html>
