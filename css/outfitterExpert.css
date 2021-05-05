@@ -40,9 +40,6 @@ main>h1{
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.founder-images{
-
-}
 .video-container{
     min-height: auto;
     padding: 1em;
@@ -81,6 +78,10 @@ a:hover{
     font-size: 18px;
     text-align: center;
 }
+.card-body{
+
+}
+
 
 
 
