@@ -35,3 +35,9 @@ li{
 a{
     color: lightskyblue;
 }
+.highlight{
+    background-color: yellow;
+}
+.frame{
+    border: 2px solid black;
+}
