@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <style>
+        .line-break, .line-break-first{
+            padding-top: 5px;
+            border-bottom: 1px solid lightgrey;
+            border-left: 1px solid lightgrey;
+            border-right: 1px solid lightgrey;
+        }
+        .line-break-first{
+            border-top: 1px solid lightgrey;
+            margin-top: 15px;
+        }
+        tr:hover{
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+<h1>My Tool Store</h1>
+<div class="container">
+    <table id="products" class="table-light table-hover row">
+        <thead>
+
+            <tr class="table-light row line-break-first">
+                <th class="col">Title</th>
+                <th class="col">Quantity</th>
+                <th class="col">Price</th>
+                <th class="col">Categories</th>
+            </tr>
+        </thead>
+        <tbody id="insertProducts"></tbody>
+    </table>
+</div>
+<button type="button" id="refresh">Refresh</button>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script>
+(function() {
+    "use strict";
+    // TODO: Create an AJAX GET request for the file under data/inventory.json
+    function buildPage() {
+        $("#insertProducts").html("");
+        $.ajax("data/inventory.json").done(function (info) {
+            console.log(info);
+            for (var i = 0; i < info.length; i++) {
+                var html = "<tr id='tool" + (i + 1) + "' class='line-break table-light row' >";
+                html += "<td class='table-light col'><h5>" + info[i].title + "</h5></td>";
+                html += "<td class='table-light col'>" + info[i].quantity + "</td>";
+                html += "<td class='table-light col'> $" + info[i].price + "</td>";
+                html += "<td class='table-light col'><ul>";
+                for(var j = 0; j < info[i].categories.length; j++){
+                    html += "<li>" + info[i].categories[j] + " </li>";
+                }
+                html += "</ul></td>";
+                html += "</tr>";
+                $("#insertProducts").append(html);
+
+
+            //     $("#insertProducts").append("<tr id='tool" + (i + 1) + "'><td><h3>" + info[i].title + "</h3></td><td>" + info[i].quantity + "</td><td> $" + info[i].price + "</td><td><ul><li>" + info[i].categories + " </li></ul></td></tr>")
+            }
+        });
+    }
+    $("#refresh").click(buildPage);
+
+    buildPage();
+
+    // TODO: Take the data from inventory.json and append it to the products table
+
+
+
+})();
+</script>
+
+</body>
+</html>
