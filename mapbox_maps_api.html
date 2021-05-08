@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapbox_Maps_API</title>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        .center{
+            margin: 50px 0 0 10%;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="center">Top Three Restaurants in DFW</h1>
+    <div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
+
+    <!--Get input from user and use that to target an area-->
+    <input type="text" id="input">
+    <button type="button" id="btn">Search</button>
+
+
+<script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/keys.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+<script src="js/mapbox-geocoder-utils.js"></script>
+<script>
+    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+    var map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/mapbox/streets-v11', // style URL
+        center: [-97.109, 32.738], // starting position [lng, lat]
+        zoom: 10 // starting zoom
+    });
+
+    map.addControl(new mapboxgl.NavigationControl());
+
+    $("#btn").click(function(){
+        var userInput = $("#input").val();
+        geocode(userInput, MAPBOX_ACCESS_TOKEN).then(function(info){
+            console.log(info)
+            var newCenter = {
+                lng: info[0],
+                lat: info[1]
+            };
+            marker.setLngLat(newCenter);
+            popup.setHTML("<h3>" + userInput + "</h3>");
+            marker.setPopup(popup);
+            map.flyTo({center: newCenter});
+        });
+    });
+
+    var favRestaurants = [
+        {lngLat: [-97.10399646025414, 32.735453629457915], name: "Twisted Root", color: "green"},
+        {lngLat: [-97.3435765332706, 32.731558933402624], name: "Wabi House", color: "red"},
+        {lngLat: [-97.11563934491117, 32.69188796621224], name: "Sushi Domo", color: "blue"},
+    ]
+
+    function displayRestaurants (restaurant){
+        var markerMaker  = new mapboxgl.Marker({
+            draggable: false,
+            color: restaurant.color,
+        })
+            .setLngLat(restaurant.lngLat)
+            .addTo(map);
+
+        var markerPopup = new mapboxgl.Popup()
+            .setLngLat(restaurant.lngLat)
+            .setHTML("<h3>" + restaurant.name + "</h3>")
+            .setMaxWidth("200px")
+        markerMaker.setPopup(markerPopup);
+    }
+    favRestaurants.forEach(displayRestaurants);
+
+
+
+
+</script>
+</body>
+</html>

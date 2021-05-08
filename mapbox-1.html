@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapbox-1</title>
+    <!--MapboxTags-->
+
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+
+</head>
+<body>
+<h1>Welcome to mapbox</h1>
+
+<div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
+
+<button type="button" id="sat-map">Change Style</button>
+<button type="button" id="fly">Fly to DFW</button>
+
+<input type="text" id="input">
+<button type="button" id="btn">Search</button>
+<!--<button type="button" id="zoomIn">Zoom In</button>-->
+<!--<button type="button" id="zoomOut">Zoom Out</button>-->
+
+<script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/keys.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+<script src="js/mapbox-geocoder-utils.js"></script>
+<script>
+    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+    var map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/mapbox/streets-v11', // style URL
+        center: [-97.109, 32.738], // starting position [lng, lat]
+        zoom: 12 // starting zoom
+    });
+
+    $("#sat-map").click(function(){
+        map.setStyle("mapbox://styles/mapbox/dark-v10");
+    });
+
+    function changeLocation(){
+        map.flyTo({
+            center: [-97.3435927135541, 32.73141775471965]
+        });
+    }
+
+    $("#fly").click(function(){
+        setTimeout(changeLocation, 3000);
+    })
+
+    //zoom feature
+    // $("#zoomIn").click(function(){
+    //     map.setZoom(map.getZoom() + 1);
+    // });
+    // $("#zoomOut").click(function(){
+    //     map.setZoom(map.getZoom() - 1);
+    // });
+
+    map.addControl(new mapboxgl.NavigationControl());
+
+    //marker 1
+    var marker = new mapboxgl.Marker({
+        draggable: true,
+        color: "red",
+    })
+        .setLngLat([-97.109, 32.738])
+        .addTo(map)
+
+    // marker.on("dragend", function(){
+    //     console.log(marker.getLngLat());
+    // })
+
+    // marker2
+    // var favRest = new mapboxgl.Marker({
+    //     draggable: false,
+    //     color: "cyan",
+    // })
+    //     .setLngLat([-97.3435927135541, 32.73141775471965])
+    //     .addTo(map);
+
+    var popup = new mapboxgl.Popup()
+        .setLngLat(marker.getLngLat())
+        .setMaxWidth("200px")
+        .addTo(map);
+
+
+    $("#btn").click(function(){
+        var userInput = $("#input").val();
+        geocode(userInput, MAPBOX_ACCESS_TOKEN).then(function(info){
+            console.log(info)
+            var newCenter = {
+                lng: info[0],
+                lat: info[1]
+            };
+            marker.setLngLat(newCenter);
+            popup.setHTML("<h3>" + userInput + "</h3>");
+            marker.setPopup(popup);
+            map.flyTo({center: newCenter});
+        });
+    });
+
+</script>
+</body>
+</html>
