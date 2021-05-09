@@ -5,18 +5,39 @@
     <title>Mapbox_Maps_API</title>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
     <style>
-        .center{
+        .center-left{
             margin: 50px 0 0 10%;
+        }
+        .center-right{
+            margin: 50px 10% 0 0;
+        }
+        .top-bar{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
 <body>
-    <h1 class="center">Top Three Restaurants in DFW</h1>
-    <div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
+<!--Search bar-->
+<div class="top-bar">
+    <h1 class="center-left">Top Three Restaurants in DFW</h1>
+    <div class="center-right"><input type="text" id="input"><button type="button" id="btn">Search</button></div>
+</div>
+<!--Map-->
+<div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
+<!--Zoom levels-->
+<div id="zoom">
+    <select id="zoom-level">
+        <option value="5">Zoom 5</option>
+        <option value="10" selected>Zoom 10</option>
+        <option value="15">Zoom 15</option>
+        <option value="20">Zoom 20</option>
+    </select>
+    <button id="change-zoom">change the zoom</button>
+</div>
 
-    <!--Get input from user and use that to target an area-->
-    <input type="text" id="input">
-    <button type="button" id="btn">Search</button>
+
 
 
 <script src="js/jquery-3.6.0.min.js"></script>
@@ -34,15 +55,30 @@
 
     map.addControl(new mapboxgl.NavigationControl());
 
+
+
     $("#btn").click(function(){
         var userInput = $("#input").val();
         geocode(userInput, MAPBOX_ACCESS_TOKEN).then(function(info){
+
             console.log(info)
             var newCenter = {
                 lng: info[0],
                 lat: info[1]
             };
-            marker.setLngLat(newCenter);
+
+            var marker = new mapboxgl.Marker({
+                draggable: true,
+                color: "yellow",
+            })
+                .setLngLat(newCenter)
+                .addTo(map)
+
+            var popup = new mapboxgl.Popup()
+                .setLngLat(marker.getLngLat())
+                .setMaxWidth("200px")
+                .addTo(map);
+
             popup.setHTML("<h3>" + userInput + "</h3>");
             marker.setPopup(popup);
             map.flyTo({center: newCenter});
@@ -50,7 +86,7 @@
     });
 
     var favRestaurants = [
-        {lngLat: [-97.10399646025414, 32.735453629457915], name: "Twisted Root", color: "green"},
+        {lngLat: [-97.10399646025414, 32.735453629457915], name: "Twisted Root", color: "green", desc: "Best Burger Joint in all of Arlington"},
         {lngLat: [-97.3435765332706, 32.731558933402624], name: "Wabi House", color: "red"},
         {lngLat: [-97.11563934491117, 32.69188796621224], name: "Sushi Domo", color: "blue"},
     ]
@@ -68,10 +104,15 @@
             .setHTML("<h3>" + restaurant.name + "</h3>")
             .setMaxWidth("200px")
         markerMaker.setPopup(markerPopup);
+
     }
     favRestaurants.forEach(displayRestaurants);
 
+    console.log($("#zoom-level").val());
 
+    $("#change-zoom").click(function(){
+        map.setZoom();
+    })
 
 
 </script>
