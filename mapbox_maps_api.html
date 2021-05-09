@@ -108,10 +108,11 @@
     }
     favRestaurants.forEach(displayRestaurants);
 
-    console.log($("#zoom-level").val());
 
+    //zoom by multiples of 5
     $("#change-zoom").click(function(){
-        map.setZoom();
+        var zoomLevel = $("#zoom-level").val();
+        map.setZoom(zoomLevel);
     })
 
 
