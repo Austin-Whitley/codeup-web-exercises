@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OpenWeather API</title>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+<h1>Something to put on the screen</h1>
+
+<div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
+
+<script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/keys.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+<script src="js/mapbox-geocoder-utils.js"></script>
+
+<script>
+
+    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+    var map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/mapbox/streets-v11', // style URL
+        center: [-97.109, 32.738], // starting position [lng, lat]
+        zoom: 10 // starting zoom
+    });
+    var marker = new mapboxgl.Marker({
+        draggable: true,
+        color: "red",
+    })
+        .setLngLat([-97.109, 32.738])
+        .addTo(map);
+
+    marker.on("dragend", function(){
+        var coordinates = [marker.getLngLat().lat, marker.getLngLat().lng]
+    })
+
+    console.log(coordinates);
+    $.ajax("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + coordinates[0] + "&lon=" + coordinates[1] + "&exclude=minutely&appid=" + WEATHERMAP_ACCESS_TOKEN)
+        .done(function(response){
+            console.log(response);
+            var today = response.daily[0]; //daily holds up to 8 days of information (0-7)
+            var todayDate = new Date(today.dt * 1000);
+            console.log(todayDate);
+    });
+</script>
+</body>
+</html>
