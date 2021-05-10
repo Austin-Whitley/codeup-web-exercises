@@ -16,6 +16,13 @@
             justify-content: space-between;
             align-items: center;
         }
+        img{
+            width: 100px;
+            height: 80px;
+        }
+        h3{
+            margin: -5px 0;
+        }
     </style>
 </head>
 <body>
@@ -86,9 +93,9 @@
     });
 
     var favRestaurants = [
-        {lngLat: [-97.10399646025414, 32.735453629457915], name: "Twisted Root", color: "green", desc: "Best Burger Joint in all of Arlington"},
-        {lngLat: [-97.3435765332706, 32.731558933402624], name: "Wabi House", color: "red"},
-        {lngLat: [-97.11563934491117, 32.69188796621224], name: "Sushi Domo", color: "blue"},
+        {lngLat: [-97.10399646025414, 32.735453629457915], name: "Twisted Root", color: "green", desc: "Best Burger stop in DFW", img: "<img src=img/twistedRoot.jpeg>"},
+        {lngLat: [-97.3435765332706, 32.731558933402624], name: "Wabi House", color: "red", desc: "Best Ramen shop in DFW", img: "<img src=img/wabiHouse.jpeg>"},
+        {lngLat: [-97.11563934491117, 32.69188796621224], name: "Sushi Domo", color: "blue", desc: "Best sushi joint in DFW", img: "<img src=img/sushiDomo.jpeg>"}
     ]
 
     function displayRestaurants (restaurant){
@@ -101,7 +108,7 @@
 
         var markerPopup = new mapboxgl.Popup()
             .setLngLat(restaurant.lngLat)
-            .setHTML("<h3>" + restaurant.name + "</h3>")
+            .setHTML( restaurant.img + "<h3>" + restaurant.name + "</h3><p>" + restaurant.desc + "</p>")
             .setMaxWidth("200px")
         markerMaker.setPopup(markerPopup);
 
