@@ -67,6 +67,8 @@
                 var todayDate = new Date(today.dt * 1000);
                 todayDate = todayDate.toDateString()
                 console.log(todayDate);
+                
+                $("#insertInfo").html("");
 
                 for (var i = 0; i < response.daily.length; i++) {
                     var html = "<div></div>"
