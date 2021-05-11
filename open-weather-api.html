@@ -43,14 +43,19 @@
         .hidden{
             display: none;
         }
+        .grow { transition: all .2s ease-in-out; }
+        .grow:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
+
+<input type="text" id="user-input" placeholder="Ex: Dallas, Texas">
+<button type="button">Search!</button>
+
+<div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
 <div>
     <div id="insertInfo" class="d-flex row justify-content-evenly"></div>
 </div>
-<div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
@@ -149,7 +154,7 @@
 
                     //create cards
                     var html = "<div></div>"
-                    html = "<div id='weatherCards' class='container col-sm weather" + (i + 1) + "'>";
+                    html = "<div class='container weatherCards grow col-sm weather" + (i + 1) + "'>";
                     html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.daily[i].temp.day) + "°</h1>";
                     html += "<p>Real Feel: " + Math.round(response.daily[i].feels_like.day) + "°</p>";
                     html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) + "°</div>";
@@ -173,22 +178,31 @@
                     html += "</div>";
                     $("#insertInfo").append(html);
 
-
-                    // $("#weatherCards").click(function(){
-                    //     $(".hiddenTillClick").addClass("hidden");
-                    // })
-                    // if($(".hiddenTillClick").css("display", "none")){
-                    //     $("#weatherCards").click(function(){
-                    //         $(".hiddenTillClick").removeClass("hidden");
-                    //     })
-                    // }
-
-
+                    $(".weatherCards").click(function(){
+                        $(".hiddenTillClick").toggleClass("hidden");
+                    })
                 }
                 console.log(response);
             });
     }
     write();
+
+    $("button").click(function(){
+        userInput = $("#user-input").val();
+        console.log(userInput);
+    })
+    function moveMarkerToSearched(){
+        geocode(userInput, MAPBOX_ACCESS_TOKEN).then(function (results){
+           marker.setLngLat(results);
+           coordinates = [marker.getLngLat().lat, marker.getLngLat().lng];
+
+           map.flyTo({
+               center: results,
+               zoom: 10,
+               speed: 1
+           });
+        });
+    }
 
 
 </script>
