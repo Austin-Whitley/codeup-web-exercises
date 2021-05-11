@@ -4,11 +4,29 @@
     <meta charset="UTF-8">
     <title>OpenWeather API</title>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        .container{
+            border: 1px solid lightgrey;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin: 50px;
+            width: 20%;
+        }
+        h1{
+            border: 1px solid grey;
+            padding: 50px;
+            border-radius: 100%;
+        }
+    </style>
 </head>
 <body>
-<h1>Something to put on the screen</h1>
 
 <div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
+<div>
+    <div id="insertInfo"></div>
+</div>
 
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/keys.js"></script>
@@ -31,18 +49,31 @@
         .setLngLat([-97.109, 32.738])
         .addTo(map);
 
+    var coordinates = [marker.getLngLat().lat, marker.getLngLat().lng];
     marker.on("dragend", function(){
-        var coordinates = [marker.getLngLat().lat, marker.getLngLat().lng]
+        coordinates = [marker.getLngLat().lat, marker.getLngLat().lng]
+        console.log(coordinates);
     })
 
-    console.log(coordinates);
-    $.ajax("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + coordinates[0] + "&lon=" + coordinates[1] + "&exclude=minutely&appid=" + WEATHERMAP_ACCESS_TOKEN)
+    $.ajax("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + coordinates[0] + "&lon=" + coordinates[1] + "&exclude=minutely,hourly&appid=" + WEATHERMAP_ACCESS_TOKEN)
         .done(function(response){
-            console.log(response);
             var today = response.daily[0]; //daily holds up to 8 days of information (0-7)
             var todayDate = new Date(today.dt * 1000);
-            console.log(todayDate);
+
+            for(var i = 0; i < response.daily.length; i++){
+                var html = "<div class='container weather" + (i + 1) + "'>";
+                html += "<h1>" + Math.round(response.daily[i].temp.day) + "°</h1>";
+                html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) +"°</div>"
+                html += "<div> Precipitation: " + response.daily[i].pop * 100 + "%</div>";
+
+                html += "</div>";
+                $("#insertInfo").append(html);
+            }
+            console.log(response);
     });
+
+
+
 </script>
 </body>
 </html>
