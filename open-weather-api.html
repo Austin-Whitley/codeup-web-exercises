@@ -67,17 +67,21 @@
                 var todayDate = new Date(today.dt * 1000);
                 todayDate = todayDate.toDateString()
                 console.log(todayDate);
+
                 
                 $("#insertInfo").html("");
 
                 for (var i = 0; i < response.daily.length; i++) {
+                    var sunrise = response.daily[i].sunrise;
+                    var readableSunrise = new Date(sunrise * 1000);
                     var html = "<div></div>"
                     html = "<div class='container weather" + (i + 1) + "'>";
-                    html += "<h1>" + Math.round(response.daily[i].temp.day) + "°</h1>";
+                    html += "<h1 style='background: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat;'>" + Math.round(response.daily[i].temp.day) + "°</h1>";
                     html += "<p>Real Feel: " + Math.round(response.daily[i].feels_like.day) + "°</p>"
                     html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) + "°</div>"
                     html += "<div> Precipitation: " + response.daily[i].pop * 100 + "%</div>";
-                    html += "<div>" + response.daily[i].sunrise + "</div>";
+                    html += "<div>" + readableSunrise + "</div>";
+                    html += "<img src='http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png'>"
                     html += "</div>";
                     $("#insertInfo").append(html); 
                 }
