@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <title>OpenWeather API</title>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet'/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/82e38e0b18.js" crossorigin="anonymous"></script>
     <style>
         .container {
-            border: 1px solid lightgrey;
+            border: 1px solid #e0e0e0;
             border-radius: 5px;
             display: flex;
             align-items: center;
             flex-direction: column;
             margin: 50px;
             width: 20%;
-            background-color: #dddddd;
+            background-color: #efefef;
         }
 
         h1 {
@@ -22,20 +24,39 @@
             border-radius: 50%;
             background-color: whitesmoke;
         }
+        .riseSet{
+            width: 100%;
+            margin: 10px 0 -10px 0;
+            padding: 10px;
+            border-top: 1px solid black;
+        }
+        i{
+            color: #ff8c59;
+            margin: 0 44%;
+        }
+        p{
+            font-weight: bold;
+        }
+        #moon{
+            color: #ffffff;
+        }
+        .hidden{
+            display: none;
+        }
     </style>
 </head>
 <body>
-
-<div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
 <div>
-    <div id="insertInfo"></div>
+    <div id="insertInfo" class="d-flex row justify-content-evenly"></div>
 </div>
+<div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/keys.js"></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
 <script src="js/mapbox-geocoder-utils.js"></script>
-
 <script>
 
     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
@@ -67,28 +88,106 @@
                 var todayDate = new Date(today.dt * 1000);
                 todayDate = todayDate.toDateString()
                 console.log(todayDate);
-
                 
                 $("#insertInfo").html("");
 
-                for (var i = 0; i < response.daily.length; i++) {
+                for (var i = 0; i < 4; i++) {
+                    //declare rise and set for sun and moon
                     var sunrise = response.daily[i].sunrise;
+                    var sunset = response.daily[i].sunset;
+                    var moonrise = response.daily[i].moonrise;
+                    var moonset = response.daily[i].moonset;
+
                     var readableSunrise = new Date(sunrise * 1000);
+                    var readableSunset = new Date(sunset * 1000);
+                    var readableMoonrise = new Date(moonrise * 1000);
+                    var readableMoonset = new Date(moonset * 1000);
+
+                    readableSunrise = readableSunrise.getHours() + ":" + readableSunrise.getMinutes();
+                    readableSunset = readableSunset.getHours() + ":" + readableSunset.getMinutes();
+                    readableMoonrise = readableMoonrise.getHours() + ":" + readableMoonrise.getMinutes();
+                    readableMoonset = readableMoonset.getHours() + ":" + readableMoonset.getMinutes();
+
+                    //find wind direction
+                    var windDirection = response.daily[i].wind_deg;
+                    var cardinalDirection = "";
+                    if(windDirection >= 349 || windDirection <= 11){
+                        cardinalDirection = "N";
+                    }else if(windDirection >= 12 && windDirection <= 34){
+                        cardinalDirection = "NNE";
+                    }else if(windDirection >= 35 && windDirection <= 56){
+                        cardinalDirection = "NE";
+                    }else if(windDirection >= 57 && windDirection <= 79){
+                        cardinalDirection = "ENE";
+                    }else if(windDirection >= 80 && windDirection <= 101){
+                        cardinalDirection = "E";
+                    }else if(windDirection >= 102 && windDirection <= 124){
+                        cardinalDirection = "ESE";
+                    }else if(windDirection >= 125 && windDirection <= 146){
+                        cardinalDirection = "SE";
+                    }else if(windDirection >= 147 && windDirection <= 169){
+                        cardinalDirection = "SSE";
+                    }else if(windDirection >= 170 && windDirection <= 191){
+                        cardinalDirection = "S";
+                    }else if(windDirection >= 192 && windDirection <= 214){
+                        cardinalDirection = "SSW";
+                    }else if(windDirection >= 215 && windDirection <= 236){
+                        cardinalDirection = "SW";
+                    }else if(windDirection >= 237 && windDirection <= 258){
+                        cardinalDirection = "WSW";
+                    }else if(windDirection >= 259 && windDirection <= 281){
+                        cardinalDirection = "W";
+                    }else if(windDirection >= 282 && windDirection <= 303){
+                        cardinalDirection = "WNW";
+                    }else if(windDirection >= 304 && windDirection <= 326){
+                        cardinalDirection = "NW";
+                    }else if(windDirection >= 327 && windDirection <= 348){
+                        cardinalDirection = "NNW";
+                    }else{
+                        cardinalDirection = "Error";
+                    }
+
+                    //create cards
                     var html = "<div></div>"
-                    html = "<div class='container weather" + (i + 1) + "'>";
-                    html += "<h1 style='background: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat;'>" + Math.round(response.daily[i].temp.day) + "°</h1>";
-                    html += "<p>Real Feel: " + Math.round(response.daily[i].feels_like.day) + "°</p>"
-                    html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) + "°</div>"
+                    html = "<div id='weatherCards' class='container col-sm weather" + (i + 1) + "'>";
+                    html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.daily[i].temp.day) + "°</h1>";
+                    html += "<p>Real Feel: " + Math.round(response.daily[i].feels_like.day) + "°</p>";
+                    html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) + "°</div>";
+                    html += "<div> Humidity: " + response.daily[i].humidity + "%</div>";
                     html += "<div> Precipitation: " + response.daily[i].pop * 100 + "%</div>";
-                    html += "<div>" + readableSunrise + "</div>";
-                    html += "<img src='http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png'>"
+                    html += "<div class='hiddenTillClick hidden'>";
+                    //wind speed/direction and gusts
+                    html += "<div style='border-bottom: 1px solid black; width: 100%;'><p style='margin: 0 35%;'>Wind</p></div>";
+                    html += "<div>" + cardinalDirection + " " + Math.round(response.daily[i].wind_speed) + "MPH</div>";
+                    html += "<div>Gusts: " + Math.round(response.daily[i].wind_gust) + "MPH</div>";
+                    //sunrise
+                    html += "<div class='riseSet'><i class=\"fas fa-sun\"></i></div>";
+                    html += "<div class='d-flex row'>";
+                    html += "<div class='col'>Rise:<p>"+ readableSunrise + "am</p></div>";
+                    html += "<div class='col'>Set:<p>" + readableSunset + "pm</p></div></div>";
+                    //moonrise
+                    html += "<div class='riseSet'><i id='moon' class=\"fas fa-moon\"></i></div>";
+                    html += "<div class='d-flex row'>";
+                    html += "<div class='col'>Rise:<p>"+ readableMoonset + "pm</p></div>";
+                    html += "<div class='col'>Set:<p>" + readableMoonrise + "am</p></div></div></div>";
                     html += "</div>";
-                    $("#insertInfo").append(html); 
+                    $("#insertInfo").append(html);
+
+
+                    // $("#weatherCards").click(function(){
+                    //     $(".hiddenTillClick").addClass("hidden");
+                    // })
+                    // if($(".hiddenTillClick").css("display", "none")){
+                    //     $("#weatherCards").click(function(){
+                    //         $(".hiddenTillClick").removeClass("hidden");
+                    //     })
+                    // }
+
+
                 }
                 console.log(response);
             });
     }
-
     write();
 
 
