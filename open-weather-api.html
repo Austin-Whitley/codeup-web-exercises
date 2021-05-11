@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>OpenWeather API</title>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet'/>
     <style>
-        .container{
+        .container {
             border: 1px solid lightgrey;
             border-radius: 5px;
             display: flex;
@@ -13,11 +13,14 @@
             flex-direction: column;
             margin: 50px;
             width: 20%;
+            background-color: #dddddd;
         }
-        h1{
+
+        h1 {
             border: 1px solid grey;
             padding: 50px;
-            border-radius: 100%;
+            border-radius: 50%;
+            background-color: whitesmoke;
         }
     </style>
 </head>
@@ -50,28 +53,37 @@
         .addTo(map);
 
     var coordinates = [marker.getLngLat().lat, marker.getLngLat().lng];
-    marker.on("dragend", function(){
+
+    marker.on("dragend", function () {
         coordinates = [marker.getLngLat().lat, marker.getLngLat().lng]
-        console.log(coordinates);
-    })
-
-    $.ajax("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + coordinates[0] + "&lon=" + coordinates[1] + "&exclude=minutely,hourly&appid=" + WEATHERMAP_ACCESS_TOKEN)
-        .done(function(response){
-            var today = response.daily[0]; //daily holds up to 8 days of information (0-7)
-            var todayDate = new Date(today.dt * 1000);
-
-            for(var i = 0; i < response.daily.length; i++){
-                var html = "<div class='container weather" + (i + 1) + "'>";
-                html += "<h1>" + Math.round(response.daily[i].temp.day) + "°</h1>";
-                html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) +"°</div>"
-                html += "<div> Precipitation: " + response.daily[i].pop * 100 + "%</div>";
-
-                html += "</div>";
-                $("#insertInfo").append(html);
-            }
-            console.log(response);
+        write();
     });
 
+    function write() {
+        $.ajax("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + coordinates[0] + "&lon=" + coordinates[1] + "&exclude=minutely,hourly&appid=" + WEATHERMAP_ACCESS_TOKEN)
+            .done(function (response) {
+
+                var today = response.daily[0]; //daily holds up to 8 days of information (0-7)
+                var todayDate = new Date(today.dt * 1000);
+                todayDate = todayDate.toDateString()
+                console.log(todayDate);
+
+                for (var i = 0; i < response.daily.length; i++) {
+                    var html = "<div></div>"
+                    html = "<div class='container weather" + (i + 1) + "'>";
+                    html += "<h1>" + Math.round(response.daily[i].temp.day) + "°</h1>";
+                    html += "<p>Real Feel: " + Math.round(response.daily[i].feels_like.day) + "°</p>"
+                    html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) + "°</div>"
+                    html += "<div> Precipitation: " + response.daily[i].pop * 100 + "%</div>";
+                    html += "<div>" + response.daily[i].sunrise + "</div>";
+                    html += "</div>";
+                    $("#insertInfo").append(html); 
+                }
+                console.log(response);
+            });
+    }
+
+    write();
 
 
 </script>
