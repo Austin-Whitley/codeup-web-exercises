@@ -18,11 +18,10 @@
             background-color: #efefef;
         }
         .searchContainer{
-
             margin: 50px 0 0 10%;
         }
-
         h1 {
+            margin-top: 20px;
             border: 1px solid grey;
             padding: 50px;
             border-radius: 50%;
@@ -47,21 +46,52 @@
         .hidden{
             display: none;
         }
-        .grow { transition: all .2s ease-in-out; }
-        .grow:hover { transform: scale(1.1); }
-
+        .grow{
+            transition: all .2s ease-in-out;
+        }
+        .grow:hover{
+            transform: scale(1.1);
+        }
         #map{
             margin-top: 20px;
+            border: 3px solid grey;
+            border-radius: 1em;
+        }
+        button, input{
+            padding: 6px;
+            border: 1px solid lightgrey;
+            border-radius: 6px;
+            margin-bottom: 2px;
         }
     </style>
 </head>
 <body>
 
+<!--Move everything to their own page-->
+<!--Add option select and jQuery "change" function for map style-->
+<!--Add day and time to cards with a darker border on top-->
+<!--Can I toggle units?-->
+
 <div class="searchContainer">
     <input type="text" id="user-input" placeholder="Ex: Dallas, Texas">
     <button type="button">Search!</button>
 </div>
+<div>
+    <select id="mapStyle">
+        <option value="mapbox://styles/mapbox/streets-v11">Streets v11</option>
+        <option value="mapbox://styles/mapbox/outdoors-v11">Outdoor v11</option>
+        <option value="mapbox://styles/mapbox/light-v10">Light v10</option>
+        <option value="mapbox://styles/mapbox/dark-v10">Dark v10</option>
+        <option value="mapbox://styles/mapbox/satellite-v9">Satellite v9</option>
+        <option value="mapbox://styles/mapbox/satellite-streets-v11">Satellite Streets v11</option>
+        <option value="mapbox://styles/mapbox/navigation-preview-day-v4">Daytime preview</option>
+        <option value="mapbox://styles/mapbox/navigation-preview-night-v4">Nighttime preview</option>
+        <option value="mapbox://styles/mapbox/navigation-guidance-day-v4">Navigational Day</option>
+        <option value="mapbox://styles/mapbox/navigation-guidance-night-v4">Navigational Night</option>
+    </select>
+</div>
 <div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
+<button id="toggleCards">Show all days</button>
 <div>
     <div id="insertInfo" class="d-flex row justify-content-evenly"></div>
 </div>
@@ -73,6 +103,7 @@
 <script src="js/mapbox-geocoder-utils.js"></script>
 <script>
 
+    //create map
     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
     var map = new mapboxgl.Map({
         container: 'map', // container ID
@@ -87,6 +118,7 @@
         .setLngLat([-97.109, 32.738])
         .addTo(map);
 
+    //set coordinates to use in the "write" function
     var coordinates = [marker.getLngLat().lat, marker.getLngLat().lng];
 
     marker.on("dragend", function () {
@@ -94,6 +126,7 @@
         write();
     });
 
+    //The only reason anything is on screen
     function write() {
         $.ajax("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + coordinates[0] + "&lon=" + coordinates[1] + "&exclude=minutely,hourly&appid=" + WEATHERMAP_ACCESS_TOKEN)
             .done(function (response) {
@@ -105,6 +138,8 @@
                 
                 $("#insertInfo").html("");
 
+
+                //iterate with response.daily.length
                 for (var i = 0; i < response.daily.length; i++) {
                     //declare sun(moon)rise and sun(moon)set as readable variables
                     var sunrise = response.daily[i].sunrise;
@@ -122,64 +157,34 @@
                     readableMoonrise = readableMoonrise.getHours() + ":" + readableMoonrise.getMinutes();
                     readableMoonset = readableMoonset.getHours() + ":" + readableMoonset.getMinutes();
 
-                    //Find the cardinal direction of the wind using the angle given by API
-                    var windDirection = response.daily[i].wind_deg;
-                    var cardinalDirection = "";
-                    if(windDirection >= 349 || windDirection <= 11){
-                        cardinalDirection = "N";
-                    }else if(windDirection >= 12 && windDirection <= 34){
-                        cardinalDirection = "NNE";
-                    }else if(windDirection >= 35 && windDirection <= 56){
-                        cardinalDirection = "NE";
-                    }else if(windDirection >= 57 && windDirection <= 79){
-                        cardinalDirection = "ENE";
-                    }else if(windDirection >= 80 && windDirection <= 101){
-                        cardinalDirection = "E";
-                    }else if(windDirection >= 102 && windDirection <= 124){
-                        cardinalDirection = "ESE";
-                    }else if(windDirection >= 125 && windDirection <= 146){
-                        cardinalDirection = "SE";
-                    }else if(windDirection >= 147 && windDirection <= 169){
-                        cardinalDirection = "SSE";
-                    }else if(windDirection >= 170 && windDirection <= 191){
-                        cardinalDirection = "S";
-                    }else if(windDirection >= 192 && windDirection <= 214){
-                        cardinalDirection = "SSW";
-                    }else if(windDirection >= 215 && windDirection <= 236){
-                        cardinalDirection = "SW";
-                    }else if(windDirection >= 237 && windDirection <= 258){
-                        cardinalDirection = "WSW";
-                    }else if(windDirection >= 259 && windDirection <= 281){
-                        cardinalDirection = "W";
-                    }else if(windDirection >= 282 && windDirection <= 303){
-                        cardinalDirection = "WNW";
-                    }else if(windDirection >= 304 && windDirection <= 326){
-                        cardinalDirection = "NW";
-                    }else if(windDirection >= 327 && windDirection <= 348){
-                        cardinalDirection = "NNW";
-                    }else{
-                        cardinalDirection = "Error";
-                    }
-
                     //Create the cards: jumbled mess of JS HTML
-                    var html = "<div></div>"
-                    html = "<div class='container weatherCards grow col-sm weather" + (i + 1) + "'>";
-                    html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.daily[i].temp.day) + "°</h1>";
+                    var html = ""
+                    html = "<div class='container grow col-sm weather-" + (i + 1) + "'>";
+
+                    //Get current weather if it's "today"
+                    if(i === 0) {
+                        html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.current.temp) + "°</h1>";
+                    }else{
+                        html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.daily[i].temp.day) + "°</h1>";
+                    }
                     html += "<p>Real Feel: " + Math.round(response.daily[i].feels_like.day) + "°</p>";
                     html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) + "°</div>";
                     html += "<div> Humidity: " + response.daily[i].humidity + "%</div>";
-                    html += "<div> Precipitation: " + response.daily[i].pop * 100 + "%</div>";
+                    html += "<div> Chance of rain: " + Math.round(response.daily[i].pop * 100) + "%</div>";
                     html += "<div class='hiddenTillClick hidden'>";
+
                     //wind speed/direction and gusts
                     html += "<div style='border-bottom: 1px solid black; width: 100%;'><p style='margin: 0 35%;'>Wind</p></div>";
-                    html += "<div style='margin: 0 15%'>";
-                    html += "<div>" + cardinalDirection + " " + Math.round(response.daily[i].wind_speed) + "MPH</div>";
+                    html += "<div style='text-align: center'>";
+                    html += "<div>" + displayWindDirection(response.daily[i].wind_deg) + " " + Math.round(response.daily[i].wind_speed) + "MPH</div>";
                     html += "<div>Gusts: " + Math.round(response.daily[i].wind_gust) + "MPH</div></div>";
+
                     //sunrise
                     html += "<div class='riseSet'><i class=\"fas fa-sun\"></i></div>";
                     html += "<div class='d-flex row'>";
                     html += "<div class='col'>Rise:<p>"+ readableSunrise + "am</p></div>";
                     html += "<div class='col'>Set:<p>" + readableSunset + "pm</p></div></div>";
+
                     //moonrise
                     html += "<div class='riseSet'><i id='moon' class=\"fas fa-moon\"></i></div>";
                     html += "<div class='d-flex row'>";
@@ -188,16 +193,67 @@
                     html += "</div>";
                     $("#insertInfo").append(html);
 
-                    $(".weatherCards").click(function(){
-                        $(".hiddenTillClick").toggleClass("hidden");
+                    //hide the second half of the card till clicked
+                    $(".weather-"+ (i + 1) + "").click(function(){
+                        $(".hiddenTillClick").toggleClass("hidden", 1000);
                     })
+
+                    //set 5-8 to hide
+                    $(".weather-5, .weather-6, .weather-7, .weather-8").addClass("hidden");
+                    //click to enable/disable cards
+                    $("#toggleCards").click(toggle);
+
                 }
                 console.log(response);
             });
     }
     write();
 
-    //Extra bit here
+    //===============Extra Functions=============//
+
+    //Find the cardinal direction of the wind using the angle given by API
+    function displayWindDirection(windDirection){
+        var cardinalDirection = "";
+        if(windDirection >= 349 || windDirection <= 11){
+            cardinalDirection = "N";
+        }else if(windDirection >= 12 && windDirection <= 34){
+            cardinalDirection = "NNE";
+        }else if(windDirection >= 35 && windDirection <= 56){
+            cardinalDirection = "NE";
+        }else if(windDirection >= 57 && windDirection <= 79){
+            cardinalDirection = "ENE";
+        }else if(windDirection >= 80 && windDirection <= 101){
+            cardinalDirection = "E";
+        }else if(windDirection >= 102 && windDirection <= 124){
+            cardinalDirection = "ESE";
+        }else if(windDirection >= 125 && windDirection <= 146){
+            cardinalDirection = "SE";
+        }else if(windDirection >= 147 && windDirection <= 169){
+            cardinalDirection = "SSE";
+        }else if(windDirection >= 170 && windDirection <= 191){
+            cardinalDirection = "S";
+        }else if(windDirection >= 192 && windDirection <= 214){
+            cardinalDirection = "SSW";
+        }else if(windDirection >= 215 && windDirection <= 236){
+            cardinalDirection = "SW";
+        }else if(windDirection >= 237 && windDirection <= 258){
+            cardinalDirection = "WSW";
+        }else if(windDirection >= 259 && windDirection <= 281){
+            cardinalDirection = "W";
+        }else if(windDirection >= 282 && windDirection <= 303){
+            cardinalDirection = "WNW";
+        }else if(windDirection >= 304 && windDirection <= 326){
+            cardinalDirection = "NW";
+        }else if(windDirection >= 327 && windDirection <= 348){
+            cardinalDirection = "NNW";
+        }else{
+            cardinalDirection = "Error";
+        }
+
+        return cardinalDirection;
+    }
+
+
     //Button calls the "moveMarker" function and uses geocode to turn text input into Longitude and Latitudinal coordinates.
     $("button").click(function(){
         userInput = $("#user-input").val();
@@ -218,8 +274,14 @@
         });
     }
 
+    //toggle the last 4 to hide or show
+    function toggle() {
+        $(".weather-5, .weather-6, .weather-7, .weather-8").removeClass("hidden");
+    }
+
     //when the user double clicks on the map, move the cursor and post that information.
     map.on("dblclick", listener => {
+
         marker.setLngLat(listener.lngLat);
         map.flyTo({
             center: [listener.lngLat.lng, listener.lngLat.lat],
@@ -230,9 +292,7 @@
         write();
     });
 
-
-
-
+    $("#mapStyle")
 
 </script>
 </body>
