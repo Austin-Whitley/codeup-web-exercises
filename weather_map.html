@@ -7,6 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/82e38e0b18.js" crossorigin="anonymous"></script>
     <style>
+        .mainContainer{
+            display: flex;
+            justify-content: center;
+            width: 90%;
+            margin: auto;
+        }
         .container {
             border: 1px solid #e0e0e0;
             border-radius: 5px;
@@ -17,8 +23,14 @@
             width: 20%;
             background-color: #efefef;
         }
-        .searchContainer{
-            margin: 50px 0 0 10%;
+        .searchContainer, #toggleCards{
+            margin: 50px 10% 0 10%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        #toggleCards{
+            margin-top: 2px;
         }
         h1 {
             margin-top: 20px;
@@ -26,6 +38,14 @@
             padding: 50px;
             border-radius: 50%;
             background-color: whitesmoke;
+        }
+        .headerContainer{
+            width: calc(100% + 24px);
+            background-color: #d9d9d9;
+        }
+        h4{
+            text-align: center;
+            margin: 10px 0;
         }
         .riseSet{
             width: 100%;
@@ -43,7 +63,7 @@
         #moon{
             color: #ffffff;
         }
-        .hidden{
+        .hiddenTest{
             display: none;
         }
         .grow{
@@ -57,26 +77,27 @@
             border: 3px solid grey;
             border-radius: 1em;
         }
-        button, input{
+        button, input, select{
             padding: 6px;
             border: 1px solid lightgrey;
             border-radius: 6px;
             margin-bottom: 2px;
+        }
+        .onBottom{
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
 <!--Move everything to their own page-->
-<!--Add option select and jQuery "change" function for map style-->
-<!--Add day and time to cards with a darker border on top-->
 <!--Can I toggle units?-->
 
 <div class="searchContainer">
-    <input type="text" id="user-input" placeholder="Ex: Dallas, Texas">
-    <button type="button">Search!</button>
-</div>
-<div>
+    <div>
+        <input type="text" id="user-input" placeholder="Ex: Dallas, Texas">
+        <button id="search" type="button">Search!</button>
+    </div>
     <select id="mapStyle">
         <option value="mapbox://styles/mapbox/streets-v11">Streets v11</option>
         <option value="mapbox://styles/mapbox/outdoors-v11">Outdoor v11</option>
@@ -90,13 +111,13 @@
         <option value="mapbox://styles/mapbox/navigation-guidance-night-v4">Navigational Night</option>
     </select>
 </div>
+
 <div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
 <button id="toggleCards">Show all days</button>
-<div>
+<div class="mainContainer">
     <div id="insertInfo" class="d-flex row justify-content-evenly"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/keys.js"></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
@@ -123,6 +144,7 @@
 
     marker.on("dragend", function () {
         coordinates = [marker.getLngLat().lat, marker.getLngLat().lng]
+        console.log(coordinates)
         write();
     });
 
@@ -131,16 +153,15 @@
         $.ajax("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + coordinates[0] + "&lon=" + coordinates[1] + "&exclude=minutely,hourly&appid=" + WEATHERMAP_ACCESS_TOKEN)
             .done(function (response) {
 
-                var today = response.daily[0]; //daily holds up to 8 days of information (0-7)
-                var todayDate = new Date(today.dt * 1000);
-                todayDate = todayDate.toDateString()
-                console.log(todayDate);
-                
                 $("#insertInfo").html("");
-
 
                 //iterate with response.daily.length
                 for (var i = 0; i < response.daily.length; i++) {
+
+                    var today = response.daily[i];
+                    var todayDate = new Date(today.dt * 1000);
+                    todayDate = todayDate.toDateString()
+
                     //declare sun(moon)rise and sun(moon)set as readable variables
                     var sunrise = response.daily[i].sunrise;
                     var sunset = response.daily[i].sunset;
@@ -160,7 +181,7 @@
                     //Create the cards: jumbled mess of JS HTML
                     var html = ""
                     html = "<div class='container grow col-sm weather-" + (i + 1) + "'>";
-
+                    html += "<div class='headerContainer'><h4>" + todayDate + "</h4></div>"
                     //Get current weather if it's "today"
                     if(i === 0) {
                         html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.current.temp) + "°</h1>";
@@ -170,8 +191,8 @@
                     html += "<p>Real Feel: " + Math.round(response.daily[i].feels_like.day) + "°</p>";
                     html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) + "°</div>";
                     html += "<div> Humidity: " + response.daily[i].humidity + "%</div>";
-                    html += "<div> Chance of rain: " + Math.round(response.daily[i].pop * 100) + "%</div>";
-                    html += "<div class='hiddenTillClick hidden'>";
+                    html += "<div class='onBottom'> Chance of rain: " + Math.round(response.daily[i].pop * 100) + "%</div>";
+                    html += "<div class='hiddenTillClick hiddenTest'>";
 
                     //wind speed/direction and gusts
                     html += "<div style='border-bottom: 1px solid black; width: 100%;'><p style='margin: 0 35%;'>Wind</p></div>";
@@ -181,33 +202,34 @@
 
                     //sunrise
                     html += "<div class='riseSet'><i class=\"fas fa-sun\"></i></div>";
-                    html += "<div class='d-flex row'>";
+                    html += "<div class='row'>";
                     html += "<div class='col'>Rise:<p>"+ readableSunrise + "am</p></div>";
                     html += "<div class='col'>Set:<p>" + readableSunset + "pm</p></div></div>";
 
                     //moonrise
                     html += "<div class='riseSet'><i id='moon' class=\"fas fa-moon\"></i></div>";
-                    html += "<div class='d-flex row'>";
+                    html += "<div class='row'>";
                     html += "<div class='col'>Rise:<p>"+ readableMoonset + "pm</p></div>";
                     html += "<div class='col'>Set:<p>" + readableMoonrise + "am</p></div></div></div>";
                     html += "</div>";
                     $("#insertInfo").append(html);
 
+
                     //hide the second half of the card till clicked
                     $(".weather-"+ (i + 1) + "").click(function(){
-                        $(".hiddenTillClick").toggleClass("hidden", 1000);
+                        $(".hiddenTillClick").slideToggle(1000);
                     })
 
                     //set 5-8 to hide
-                    $(".weather-5, .weather-6, .weather-7, .weather-8").addClass("hidden");
-                    //click to enable/disable cards
-                    $("#toggleCards").click(toggle);
-
+                    $(".weather-5, .weather-6, .weather-7, .weather-8").addClass("hiddenTest");
                 }
                 console.log(response);
             });
     }
     write();
+
+    //click to enable/disable cards
+    $("#toggleCards").click(toggle);
 
     //===============Extra Functions=============//
 
@@ -249,13 +271,11 @@
         }else{
             cardinalDirection = "Error";
         }
-
         return cardinalDirection;
     }
 
-
     //Button calls the "moveMarker" function and uses geocode to turn text input into Longitude and Latitudinal coordinates.
-    $("button").click(function(){
+    $("#search").click(function(){
         userInput = $("#user-input").val();
         console.log(userInput);
         moveMarkerToInput()
@@ -276,12 +296,11 @@
 
     //toggle the last 4 to hide or show
     function toggle() {
-        $(".weather-5, .weather-6, .weather-7, .weather-8").removeClass("hidden");
+        $(".weather-5, .weather-6, .weather-7, .weather-8").toggleClass("hiddenTest");
     }
 
     //when the user double clicks on the map, move the cursor and post that information.
     map.on("dblclick", listener => {
-
         marker.setLngLat(listener.lngLat);
         map.flyTo({
             center: [listener.lngLat.lng, listener.lngLat.lat],
@@ -292,7 +311,9 @@
         write();
     });
 
-    $("#mapStyle")
+    $("#mapStyle").change(function(){
+        map.setStyle($("#mapStyle").val())
+    })
 
 </script>
 </body>
