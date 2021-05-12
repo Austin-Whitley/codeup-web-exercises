@@ -17,6 +17,10 @@
             width: 20%;
             background-color: #efefef;
         }
+        .searchContainer{
+
+            margin: 50px 0 0 10%;
+        }
 
         h1 {
             border: 1px solid grey;
@@ -45,13 +49,18 @@
         }
         .grow { transition: all .2s ease-in-out; }
         .grow:hover { transform: scale(1.1); }
+
+        #map{
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-<input type="text" id="user-input" placeholder="Ex: Dallas, Texas">
-<button type="button">Search!</button>
-
+<div class="searchContainer">
+    <input type="text" id="user-input" placeholder="Ex: Dallas, Texas">
+    <button type="button">Search!</button>
+</div>
 <div id='map' style='width: 80vw; height: 80vh; margin: auto;'></div>
 <div>
     <div id="insertInfo" class="d-flex row justify-content-evenly"></div>
@@ -96,8 +105,8 @@
                 
                 $("#insertInfo").html("");
 
-                for (var i = 0; i < 4; i++) {
-                    //declare rise and set for sun and moon
+                for (var i = 0; i < response.daily.length; i++) {
+                    //declare sun(moon)rise and sun(moon)set as readable variables
                     var sunrise = response.daily[i].sunrise;
                     var sunset = response.daily[i].sunset;
                     var moonrise = response.daily[i].moonrise;
@@ -113,7 +122,7 @@
                     readableMoonrise = readableMoonrise.getHours() + ":" + readableMoonrise.getMinutes();
                     readableMoonset = readableMoonset.getHours() + ":" + readableMoonset.getMinutes();
 
-                    //find wind direction
+                    //Find the cardinal direction of the wind using the angle given by API
                     var windDirection = response.daily[i].wind_deg;
                     var cardinalDirection = "";
                     if(windDirection >= 349 || windDirection <= 11){
@@ -152,7 +161,7 @@
                         cardinalDirection = "Error";
                     }
 
-                    //create cards
+                    //Create the cards: jumbled mess of JS HTML
                     var html = "<div></div>"
                     html = "<div class='container weatherCards grow col-sm weather" + (i + 1) + "'>";
                     html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.daily[i].temp.day) + "°</h1>";
@@ -163,8 +172,9 @@
                     html += "<div class='hiddenTillClick hidden'>";
                     //wind speed/direction and gusts
                     html += "<div style='border-bottom: 1px solid black; width: 100%;'><p style='margin: 0 35%;'>Wind</p></div>";
+                    html += "<div style='margin: 0 15%'>";
                     html += "<div>" + cardinalDirection + " " + Math.round(response.daily[i].wind_speed) + "MPH</div>";
-                    html += "<div>Gusts: " + Math.round(response.daily[i].wind_gust) + "MPH</div>";
+                    html += "<div>Gusts: " + Math.round(response.daily[i].wind_gust) + "MPH</div></div>";
                     //sunrise
                     html += "<div class='riseSet'><i class=\"fas fa-sun\"></i></div>";
                     html += "<div class='d-flex row'>";
@@ -187,11 +197,14 @@
     }
     write();
 
+    //Extra bit here
+    //Button calls the "moveMarker" function and uses geocode to turn text input into Longitude and Latitudinal coordinates.
     $("button").click(function(){
         userInput = $("#user-input").val();
         console.log(userInput);
+        moveMarkerToInput()
     })
-    function moveMarkerToSearched(){
+    function moveMarkerToInput(){
         geocode(userInput, MAPBOX_ACCESS_TOKEN).then(function (results){
            marker.setLngLat(results);
            coordinates = [marker.getLngLat().lat, marker.getLngLat().lng];
@@ -201,8 +214,24 @@
                zoom: 10,
                speed: 1
            });
+           write();
         });
     }
+
+    //when the user double clicks on the map, move the cursor and post that information.
+    map.on("dblclick", listener => {
+        marker.setLngLat(listener.lngLat);
+        map.flyTo({
+            center: [listener.lngLat.lng, listener.lngLat.lat],
+            speed: 1,
+            zoom: 10,
+        });
+        coordinates = [listener.lngLat.lat, listener.lngLat.lng]
+        write();
+    });
+
+
+
 
 
 </script>
