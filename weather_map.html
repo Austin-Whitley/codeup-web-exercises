@@ -148,6 +148,29 @@
         write();
     });
 
+    //when the user double clicks on the map, move the cursor and post that information.
+    map.on("dblclick", listener => {
+        marker.setLngLat(listener.lngLat);
+        map.flyTo({
+            center: [listener.lngLat.lng, listener.lngLat.lat],
+            speed: 1,
+            zoom: 10,
+        });
+        coordinates = [listener.lngLat.lat, listener.lngLat.lng]
+        write();
+    });
+
+    //Button calls the "moveMarker" function and uses geocode to turn text input into Longitude and Latitudinal coordinates.
+    $("#search").click(function(){
+        userInput = $("#user-input").val();
+        console.log(userInput);
+        moveMarkerToInput()
+    })
+
+    $("#mapStyle").change(function(){
+        map.setStyle($("#mapStyle").val())
+    })
+
     //The only reason anything is on screen
     function write() {
         $.ajax("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + coordinates[0] + "&lon=" + coordinates[1] + "&exclude=minutely,hourly&appid=" + WEATHERMAP_ACCESS_TOKEN)
@@ -162,55 +185,39 @@
                     var todayDate = new Date(today.dt * 1000);
                     todayDate = todayDate.toDateString()
 
-                    //declare sun(moon)rise and sun(moon)set as readable variables
-                    var sunrise = response.daily[i].sunrise;
-                    var sunset = response.daily[i].sunset;
-                    var moonrise = response.daily[i].moonrise;
-                    var moonset = response.daily[i].moonset;
-
-                    var readableSunrise = new Date(sunrise * 1000);
-                    var readableSunset = new Date(sunset * 1000);
-                    var readableMoonrise = new Date(moonrise * 1000);
-                    var readableMoonset = new Date(moonset * 1000);
-
-                    readableSunrise = readableSunrise.getHours() + ":" + readableSunrise.getMinutes();
-                    readableSunset = readableSunset.getHours() + ":" + readableSunset.getMinutes();
-                    readableMoonrise = readableMoonrise.getHours() + ":" + readableMoonrise.getMinutes();
-                    readableMoonset = readableMoonset.getHours() + ":" + readableMoonset.getMinutes();
-
                     //Create the cards: jumbled mess of JS HTML
                     var html = ""
                     html = "<div class='container grow col-sm weather-" + (i + 1) + "'>";
                     html += "<div class='headerContainer'><h4>" + todayDate + "</h4></div>"
                     //Get current weather if it's "today"
                     if(i === 0) {
-                        html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.current.temp) + "°</h1>";
+                        html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + today.weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.current.temp) + "°</h1>";
                     }else{
-                        html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(response.daily[i].temp.day) + "°</h1>";
+                        html += "<h1 style='background-image: url(http://openweathermap.org/img/w/" + today.weather[0].icon + ".png); background-repeat: no-repeat; background-position: top;'>" + Math.round(today.temp.day) + "°</h1>";
                     }
-                    html += "<p>Real Feel: " + Math.round(response.daily[i].feels_like.day) + "°</p>";
-                    html += "<div> low: " + Math.round(response.daily[i].temp.min) + "° / High: " + Math.round(response.daily[i].temp.max) + "°</div>";
-                    html += "<div> Humidity: " + response.daily[i].humidity + "%</div>";
-                    html += "<div class='onBottom'> Chance of rain: " + Math.round(response.daily[i].pop * 100) + "%</div>";
+                    html += "<p>Real Feel: " + Math.round(today.feels_like.day) + "°</p>";
+                    html += "<div> low: " + Math.round(today.temp.min) + "° / High: " + Math.round(today.temp.max) + "°</div>";
+                    html += "<div> Humidity: " + today.humidity + "%</div>";
+                    html += "<div class='onBottom'> Chance of rain: " + Math.round(today.pop * 100) + "%</div>";
                     html += "<div class='hiddenTillClick hiddenTest'>";
 
                     //wind speed/direction and gusts
                     html += "<div style='border-bottom: 1px solid black; width: 100%;'><p style='margin: 0 35%;'>Wind</p></div>";
                     html += "<div style='text-align: center'>";
-                    html += "<div>" + displayWindDirection(response.daily[i].wind_deg) + " " + Math.round(response.daily[i].wind_speed) + "MPH</div>";
-                    html += "<div>Gusts: " + Math.round(response.daily[i].wind_gust) + "MPH</div></div>";
+                    html += "<div>" + displayWindDirection(today.wind_deg) + " " + Math.round(today.wind_speed) + "MPH</div>";
+                    html += "<div>Gusts: " + Math.round(today.wind_gust) + "MPH</div></div>";
 
                     //sunrise
                     html += "<div class='riseSet'><i class=\"fas fa-sun\"></i></div>";
                     html += "<div class='row'>";
-                    html += "<div class='col'>Rise:<p>"+ readableSunrise + "am</p></div>";
-                    html += "<div class='col'>Set:<p>" + readableSunset + "pm</p></div></div>";
+                    html += "<div class='col'>Rise:<p>"+ riseSet(today.sunrise) + "am</p></div>";
+                    html += "<div class='col'>Set:<p>" + riseSet(today.sunset) + "pm</p></div></div>";
 
                     //moonrise
                     html += "<div class='riseSet'><i id='moon' class=\"fas fa-moon\"></i></div>";
                     html += "<div class='row'>";
-                    html += "<div class='col'>Rise:<p>"+ readableMoonset + "pm</p></div>";
-                    html += "<div class='col'>Set:<p>" + readableMoonrise + "am</p></div></div></div>";
+                    html += "<div class='col'>Rise:<p>"+ riseSet(today.moonset) + "pm</p></div>";
+                    html += "<div class='col'>Set:<p>" + riseSet(today.moonrise) + "am</p></div></div></div>";
                     html += "</div>";
                     $("#insertInfo").append(html);
 
@@ -274,12 +281,6 @@
         return cardinalDirection;
     }
 
-    //Button calls the "moveMarker" function and uses geocode to turn text input into Longitude and Latitudinal coordinates.
-    $("#search").click(function(){
-        userInput = $("#user-input").val();
-        console.log(userInput);
-        moveMarkerToInput()
-    })
     function moveMarkerToInput(){
         geocode(userInput, MAPBOX_ACCESS_TOKEN).then(function (results){
            marker.setLngLat(results);
@@ -299,21 +300,15 @@
         $(".weather-5, .weather-6, .weather-7, .weather-8").toggleClass("hiddenTest");
     }
 
-    //when the user double clicks on the map, move the cursor and post that information.
-    map.on("dblclick", listener => {
-        marker.setLngLat(listener.lngLat);
-        map.flyTo({
-            center: [listener.lngLat.lng, listener.lngLat.lat],
-            speed: 1,
-            zoom: 10,
-        });
-        coordinates = [listener.lngLat.lat, listener.lngLat.lng]
-        write();
-    });
+    //get the sun(moon)rise and sun(moon)set as readable variables
+    function riseSet(item){
+        var readableItem = new Date(item * 1000);
+        readableItem = readableItem.getHours() + ":" + readableItem.getMinutes();
+        return readableItem;
+    }
 
-    $("#mapStyle").change(function(){
-        map.setStyle($("#mapStyle").val())
-    })
+
+
 
 </script>
 </body>
