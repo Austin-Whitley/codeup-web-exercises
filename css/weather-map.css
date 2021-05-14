@@ -1,0 +1,79 @@
+.mainContainer{
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    margin: auto;
+}
+.container {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 50px;
+    width: 20%;
+    background-color: #efefef;
+}
+.searchContainer, #toggleCards{
+    margin: 50px 10% 0 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#toggleCards{
+    margin-top: 2px;
+}
+h1 {
+    margin-top: 20px;
+    border: 1px solid grey;
+    padding: 50px;
+    border-radius: 50%;
+    background-color: whitesmoke;
+}
+.headerContainer{
+    width: calc(100% + 24px);
+    background-color: #d9d9d9;
+}
+h4{
+    text-align: center;
+    margin: 10px 0;
+}
+.riseSet{
+    width: 100%;
+    margin: 10px 0 -10px 0;
+    padding: 10px;
+    border-top: 1px solid black;
+}
+i{
+    color: #ff8c59;
+    margin: 0 44%;
+}
+p{
+    font-weight: bold;
+}
+#moon{
+    color: #ffffff;
+}
+.hiddenTest{
+    display: none;
+}
+.grow{
+    transition: all .2s ease-in-out;
+}
+.grow:hover{
+    transform: scale(1.1);
+}
+#map{
+    margin-top: 20px;
+    border: 3px solid grey;
+    border-radius: 1em;
+}
+button, input, select{
+    padding: 6px;
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+    margin-bottom: 2px;
+}
+.onBottom{
+    margin-bottom: 10px;
+}
