@@ -1,6 +1,7 @@
 :root{
     --background-color: rgb(42, 45, 49);
-    --mustard-color: rgb(190, 161, 82)
+    --mustard-color: rgb(190, 161, 82);
+    --hover-color: #ADD8E6;
 }
 
 .navbar{
@@ -10,6 +11,10 @@
 .navbar-icon{
     font-size: 120%;
     padding: 0 10px;
+}
+.font-header{
+    font-size: 48px;
+    font-weight: bold;
 }
 .body{
     font-family: sans-serif;
@@ -39,10 +44,27 @@ main>h1{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 2;
 }
+.center-video-button{
+    display: flex;
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+    color: white;
+    border: 2px solid lightgrey;
+    border-radius: 2em;
+    padding: 15px 25px;
+}
+.center-video-button:hover{
+    border-color: var(--hover-color);
+    text-decoration: none;
+}
+
 .video-container{
     min-height: auto;
     padding: 1em;
+    z-index: 8;
 }
 .footer{
     margin-top: 1em;
@@ -83,7 +105,6 @@ main>h1{
     transform: scale(1.1);
     opacity: 0;
     display: block;
-    opacity: 0;
 }
 .hover-1-content{
     position: absolute;
@@ -127,7 +148,7 @@ a{
     color: white;
 }
 a:hover{
-    color: lightblue;
+    color: var(--hover-color);
 }
 .team-members{
     display: flex;
@@ -139,7 +160,7 @@ a:hover{
     color: var(--mustard-color);
 }
 .text-block{
-    font-size: 18px;
+    font-size: 20px;
     text-align: center;
 }
 .card-body{

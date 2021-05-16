@@ -40,6 +40,7 @@ $("#search").click(function(){
     userInput = $("#user-input").val();
     console.log(userInput);
     moveMarkerToInput()
+
 })
 
 $("#mapStyle").change(function(){
