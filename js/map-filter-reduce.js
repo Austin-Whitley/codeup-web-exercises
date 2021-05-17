@@ -104,3 +104,9 @@ console.log(instructors);
 // let instructorsReduced = users.reduce((acc, user) => {acc.push(user.name); return acc}, []);
 // console.log(instructorsReduced);
 
+// let userLanguages = users.reduce(function(accumulator, user){
+//     if(!accumulator[user.languages]){
+//         accumulator
+//     }
+// }, {})
+
