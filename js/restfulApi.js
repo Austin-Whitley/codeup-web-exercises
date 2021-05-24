@@ -20,7 +20,6 @@ function getBooks() {
         });
 }
 
-
 fetch("https://bottlenose-acoustic-makeup.glitch.me/books/1")
     .then(response => response.json())
     .then(book => console.log(book))
@@ -92,7 +91,7 @@ let patchOptions = {
     body: JSON.stringify(insert)
 }
 
-//PUT
+//Patch
 fetch("https://bottlenose-acoustic-makeup.glitch.me/books/7", patchOptions)
     .then(getBooks);
 
